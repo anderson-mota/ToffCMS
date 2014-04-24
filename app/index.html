@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
-    <meta name="description" content="">
+    <meta name="description" content=""
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
@@ -18,14 +18,24 @@
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <link href="styles/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="styles/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="styles/AdminLTE.css" rel="stylesheet" type="text/css" />
   </head>
-  <body ng-app="adminApp">
+  <body ng-app="adminApp" class="skin-black fixed">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="container" ng-view=""></div>
+    <header class="header" ng-include="'views/partials/header.html'"></header>
+
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+      <!-- Sidebar -->
+      <aside class="left-side sidebar-offcanvas" ng-controller="SidebarCtrl" ng-include="'views/partials/sidebar.html'"></header>
+
+      <!-- Main content -->
+      <aside class="right-side" ng-view=""></div>
+    </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -56,6 +66,7 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/sidebar.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -1,6 +1,8 @@
+/* global app:true */
+/* exported app */
 'use strict';
 
-angular.module('adminApp', [
+var app = angular.module('adminApp', [
   'ngResource',
   'ngRoute'
 ])
