@@ -3,6 +3,12 @@
 <form name="loginForm" ng-submit="login(credentials)" novalidate>
   <div class="body bg-gray">
 
+    <div class="alert alert-danger alert-dismissable" ng-if="error">
+      <i class="fa fa-ban"></i>
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <b>Error!</b> {{ error }}
+    </div>
+
     <div class="form-group">
       <input type="text" ng-model="credentials.email" class="form-control" placeholder="Email">
     </div>

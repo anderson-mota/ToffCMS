@@ -3,13 +3,24 @@
 
 app.controller('LoginCtrl', function ($scope, $rootScope, AUTH_EVENTS, AuthService) {
 
+    $scope.error = null;
+
     $scope.credentials = {
       email: '',
       password: ''
     };
 
     $scope.login = function (credentials) {
-      AuthService.login(credentials).then(function () {
+      $scope.error = null;
+
+      AuthService.login(credentials).then(function (data) {
+
+        if (data.error) {
+          $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+          $scope.error = data.message;
+          return;
+        }
+
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         $('html, body').removeClass('bg-black');
       }, function () {

@@ -11,12 +11,13 @@ app.factory('AuthService', function ($http, $location, $cookies, Session, USER_R
             if (res.data.error === true) {
               // !!! ToDo : display error msg
               console.error(res.data.message);
-              return;
+              return res.data;
             }
 
             // ToDo: create user-groups
             Session.create(res.data.user.api_key, res.data.user.id, 'admin'); // jshint ignore:line
             $location.path('/');
+            return res.data;
           });
       },
       isAuthenticated: function () {
