@@ -1,10 +1,8 @@
+/* global app:true */
 'use strict';
 
-angular.module('adminApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+app.controller('MainCtrl', function ($scope, USER_ROLES, AuthService) {
+    $scope.currentUser = null;
+    $scope.userRoles = USER_ROLES;
+    $scope.isAuthorized = AuthService.isAuthorized;
   });

@@ -29,7 +29,7 @@ app.controller('SidebarCtrl', function ($scope, $location) {
     ];
 
     // Check if the current instance is active
-   $scope.navClass = function (instance) {
+    $scope.navClass = function (instance) {
       var path = $location.path();
 
       // if (path.substr(-1, 1) === '/') {

@@ -31,10 +31,10 @@
 
     <div class="wrapper row-offcanvas row-offcanvas-left">
       <!-- Sidebar -->
-      <aside class="left-side sidebar-offcanvas" ng-controller="SidebarCtrl" ng-include="'views/partials/sidebar.html'"></header>
+      <aside class="left-side sidebar-offcanvas" ng-controller="SidebarCtrl" ng-include="'views/partials/sidebar.html'"></aside>
 
       <!-- Main content -->
-      <aside class="right-side" ng-view=""></div>
+      <aside class="right-side" ng-view=""></aside>
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -60,13 +60,20 @@
     <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/config/constants.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/sidebar.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/services/auth.js"></script>
+        <script src="scripts/services/session.js"></script>
+        <script src="scripts/services/authinterceptor.js"></script>
+        <script src="scripts/controllers/logout.js"></script>
         <!-- endbuild -->
 </body>
 </html>
