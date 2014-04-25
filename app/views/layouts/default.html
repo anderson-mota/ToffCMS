@@ -1,0 +1,9 @@
+<header class="header" ng-include="'views/partials/header.html'"></header>
+
+<div class="wrapper row-offcanvas row-offcanvas-left">
+  <!-- Sidebar -->
+  <aside class="left-side sidebar-offcanvas" ng-controller="SidebarCtrl" ng-include="'views/partials/sidebar.html'"></aside>
+
+  <!-- Main content -->
+  <aside class="right-side" ng-view=""></aside>
+</div>

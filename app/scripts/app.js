@@ -10,7 +10,7 @@ var app = angular.module('adminApp', [
   .config(function ($routeProvider, USER_ROLES) {
     $routeProvider
       .when('/',             {templateUrl: 'views/main.html',      controller: 'MainCtrl',    data: { authorizedRoles: [USER_ROLES.admin] }})
-      .when('/login',        {templateUrl: 'views/login.html',     controller: 'LoginCtrl',   data: { authorizedRoles: USER_ROLES.all }})
+      .when('/login',        {templateUrl: 'views/login.html',     controller: 'LoginCtrl',   data: { authorizedRoles: USER_ROLES.all }, layout: 'login.html' })
       .when('/logout',       {templateUrl: 'views/main.html',      controller: 'LogoutCtrl',  data: { authorizedRoles: [USER_ROLES.admin] }})
       .otherwise({
         redirectTo: '/',
@@ -18,8 +18,24 @@ var app = angular.module('adminApp', [
       });
   })
 
-  .run(function ($rootScope, $cookieStore, AUTH_EVENTS, AuthService, Session) {
+  .run(function ($rootScope, $route, $cookieStore, AUTH_EVENTS, AuthService, Session) {
 
+    // Get the layout of a view
+    $rootScope.getLayout = function () {
+      var layout = 'default.html';
+
+      if ($route.current == null) {
+        return;
+      }
+
+      if ($route.current.layout) {
+        layout = $route.current.layout;
+      }
+
+      return 'views/layouts/' + layout;
+    }
+
+    // Check if the user is logged in
     Session.updateFromCookies();
 
     $rootScope.$on('$routeChangeStart', function (event, next) {
