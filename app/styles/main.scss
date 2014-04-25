@@ -13,3 +13,7 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
   margin-top: 15px;
   margin-left: 0;
 }
+
+a:hover, .clickable:hover {
+  cursor: pointer;
+}

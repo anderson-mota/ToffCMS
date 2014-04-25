@@ -1,0 +1,121 @@
+<section class="content">
+  <div class="mailbox row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+
+        <div class="box-body">
+          <div class="row">
+
+            <div class="col-md-3 col-sm-4">
+                <div class="box-header">
+                    <i class="fa fa-edit"></i>
+                    <h3 class="box-title">PAGES</h3>
+                </div>
+                <!-- compose message btn -->
+                <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#compose-modal"><i class="fa fa-pencil"></i> New page</a>
+                <!-- Navigation - folders-->
+                <div style="margin-top: 15px;">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="header">Filter</li>
+                        <li ng-class="activeStatus=='all' ? 'active' : ''"><a ng-click="showByStatus('all')"><i class="fa fa-inbox"></i> All ({{ pages.length }})</a></li>
+                        <li ng-class="activeStatus=='live' ? 'active' : ''"><a ng-click="showByStatus('live')"><i class="fa fa-check"></i> Live</a></li>
+                        <li ng-class="activeStatus=='draft' ? 'active' : ''"><a ng-click="showByStatus('draft')"><i class="fa fa-pencil-square-o"></i> Drafts</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-sm-8">
+
+              <div class="row pad"></div>
+
+              <div class="table-responsive">
+                <table class="table table-mailbox table-hover">
+                  <tbody>
+                    <tr class="clickable" ng-repeat="page in pages" ng-show="page.isVisible" ng-click="editPage(page)">
+                      <!-- <td class="small-col"><input type="checkbox" name="action" ng-value="page.id" /></td> -->
+                      <td class="subject">{{ page.title }}</td>
+                      <td class="small-col">
+                        <span class="label" ng-class="{live: 'label-success', draft: 'label-warning'}[page.status]">{{ page.status }}</span>
+                      </td>
+                      <td class="small-col">
+                        <button class="btn btn-success btn-xs"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-danger btn-xs" ng-click="deletePage(page)"><i class="fa fa-trash-o"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+ <!-- CREATE PAGE MODAL -->
+<div class="modal fade" id="compose-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-edit"></i> Create a new page</h4>
+            </div>
+            <form action="#" method="post">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Title:</span>
+                            <input name="email_to" type="email" class="form-control" placeholder="Page title">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Slug:</span>
+                            <input name="email_to" type="email" class="form-control" placeholder="Page slug">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Status:</label>
+                          <select class="form-control">
+                            <option value="live">Live</option>
+                            <option value="draft">Draft</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Language:</label>
+                          <select class="form-control">
+                            <option value="en">English</option>
+                            <option value="lv">Latviešu</option>
+                            <option value="ru">Russian</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea name="message" id="email_message" class="form-control" placeholder="Message" style="height: 120px;"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer clearfix">
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
+
+                    <button type="submit" class="btn btn-primary pull-left"><i class="fa fa-envelope"></i> Send Message</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

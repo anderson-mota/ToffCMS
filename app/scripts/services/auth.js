@@ -35,6 +35,12 @@ app.factory('AuthService', function ($http, $location, $cookies, Session, USER_R
 
         return (this.isAuthenticated() &&
           authorizedRoles.indexOf(Session.userRole) !== -1);
+      },
+      getApiCredentials: function () {
+        return {
+          user_id: Session.userId,
+          api_key: Session.apiKey
+        }
       }
     };
   });
