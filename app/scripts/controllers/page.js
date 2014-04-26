@@ -71,7 +71,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
       if ($scope.activePage.id) {
 
         // Update a page
-        Page.update($scope.activePage, function success (data) {
+        Page.update($scope.activePage, function success () {
           $('#page-crud-modal').modal('hide');
         }, error);
 

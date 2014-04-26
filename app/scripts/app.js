@@ -21,7 +21,7 @@ var app = angular.module('adminApp', [
       });
   })
 
-  .run(function ($rootScope, $route, $cookieStore, AUTH_EVENTS, AuthService, Session) {
+  .run(function ($rootScope, $route, $cookieStore, AUTH_EVENTS, AuthService) {
 
     // Get the layout of a view
     $rootScope.getLayout = function () {
@@ -39,8 +39,11 @@ var app = angular.module('adminApp', [
     };
 
     // Check if the user is logged in
-    Session.updateFromCookies();
+    if (AuthService.loadFromCookies()) {
+      $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+    }
 
+    // Revalidate auth on route change
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
       var authorizedRoles = next.data.authorizedRoles;

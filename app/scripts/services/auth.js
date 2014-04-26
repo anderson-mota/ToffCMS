@@ -41,6 +41,9 @@ app.factory('AuthService', function ($http, $location, $cookies, Session, USER_R
           user_id: Session.userId, // jshint ignore:line
           api_key: Session.apiKey // jshint ignore:line
         };
+      },
+      loadFromCookies: function () {
+        return Session.updateFromCookies();
       }
     };
   });
