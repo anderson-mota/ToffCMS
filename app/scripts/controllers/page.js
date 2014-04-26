@@ -1,8 +1,9 @@
 'use strict';
 
-app.controller('PageCtrl', function ($scope, $routeParams, Page) {
+app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
     $scope.pages = [];
     $scope.activeStatus = 'all';
+    $scope.activePage = {};
 
     $scope.do = function ($event) {
       $event.preventDefault();
@@ -17,62 +18,91 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page) {
     };
 
     /**
+     * Create a new page
+     * Triggers on `create a page` click
+     * @return {void}
+     */
+    $scope.newPage = function () {
+      $scope.activePage = {
+        status: 'draft',
+        language: 'en',
+        updateSlug: true
+      };
+    };
+
+    /**
      * Edit a page
      * @param  {object} page
      * @return {void}
      */
     $scope.editPage = function (page) {
-      // ToDo
-      console.log('edit');
+      $scope.activePage = page;
     };
 
     /**
      * Delete a page
-     * @param  {object} page
+     * @param  {integer} $index
      * @return {void}
      */
-    $scope.deletePage = function (page) {
+    $scope.deletePage = function ($index) {
 
-      // ToDo: make this better
-      // Delete a page from the scope
-      for (var i = 0; i < $scope.pages.length; i++) {
-        if ($scope.pages[i].id === page.id) {
-          delete $scope.pages.splice(i, 1);
-        }
-      };
+      if (confirm('Are you sure you want to delete this page?') === false)
+      {
+        return;
+      }
 
-      // ToDo: delete the page server-side
+      Page.delete($scope.pages[$index], function () {
+        // ToDO: catch errors
+        delete $scope.pages.splice($index, 1);
+      });
+
     };
 
+    /**
+     * Process the submitted form
+     * @return {void}
+     */
+    $scope.processForm = function () {
+      console.log($scope.activePage);
 
-    // Make the editor look smaller
-    $.fn.wysihtml5.locale.en = jQuery.extend($.fn.wysihtml5.locale.en, {
-      emphasis: {
-        bold: 'B',
-        italic: 'I',
-        underline: 'U',
-        small: 'S'
+      // Update or create the page
+      if ($scope.activePage.id) {
+        Page.update($scope.activePage, function (data) {
+          console.log(data);
+          // ToDO: check for errors
+
+          $('#page-crud-modal').modal('hide');
+        });
+      } else {
+        Page.create($scope.activePage, function (data) {
+          console.log(data);
+          // ToDO: check for errors
+
+          data.page.isVisible = true;
+          data.page.updateSlug = false;
+          $scope.pages.push(data.page);
+          $('#page-crud-modal').modal('hide');
+        });
       }
-    });
+    };
 
-    // Init wysiwyg
-    $(".textarea").wysihtml5({
-      toolbar: {
-        color: true,
-        html: true
+    // Watch for title changes and update the slug field
+    $scope.$watch('activePage.title', function (value, oldValue) {
+      if ($scope.activePage.updateSlug === false) {
+        return;
       }
-    });
 
-    $('input[name="title"]').keyup(function () {
-      $('input[name="slug"]').val( slug($(this).val()) );
+      $scope.activePage.slug = Slug.slugify(value);
     });
 
     // Get all of the pages
     Page.get(function (data) {
       for (var i = 0; i < data.pages.length; i++) {
         data.pages[i].isVisible = true;
+        data.pages[i].updateSlug = false;
       };
 
+      $scope.activePage = data.pages[0];
       $scope.pages = data.pages;
     });
   });

@@ -5,7 +5,8 @@
 var app = angular.module('adminApp', [
   'ngResource',
   'ngRoute',
-  'ngCookies'
+  'ngCookies',
+  'slugifier'
 ])
   .config(function ($routeProvider, USER_ROLES) {
     $routeProvider
