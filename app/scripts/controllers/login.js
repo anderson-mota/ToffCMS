@@ -1,4 +1,4 @@
-/* global app:true */
+/* global $:true */
 'use strict';
 
 app.controller('LoginCtrl', function ($scope, $rootScope, AUTH_EVENTS, AuthService) {

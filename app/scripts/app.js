@@ -27,7 +27,7 @@ var app = angular.module('adminApp', [
     $rootScope.getLayout = function () {
       var layout = 'default.html';
 
-      if ($route.current == null) {
+      if ($route.current === null) {
         return;
       }
 
@@ -36,7 +36,7 @@ var app = angular.module('adminApp', [
       }
 
       return 'views/layouts/' + layout;
-    }
+    };
 
     // Check if the user is logged in
     Session.updateFromCookies();

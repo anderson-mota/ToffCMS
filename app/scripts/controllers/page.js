@@ -1,3 +1,5 @@
+/* global $:true */
+/* global confirm:true */
 'use strict';
 
 app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
@@ -12,7 +14,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
     $scope.showByStatus = function (status) {
       for (var i = 0; i < $scope.pages.length; i++) {
         $scope.pages[i].isVisible = ($scope.pages[i].status === status || status === 'all');
-      };
+      }
 
       $scope.activeStatus = status;
     };
@@ -53,7 +55,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
 
       Page.delete($scope.pages[$index], function () {
         // ToDO: catch errors
-        delete $scope.pages.splice($index, 1);
+        delete $scope.pages.splice($index, 1); // jshint ignore:line
       });
 
     };
@@ -87,7 +89,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
     };
 
     // Watch for title changes and update the slug field
-    $scope.$watch('activePage.title', function (value, oldValue) {
+    $scope.$watch('activePage.title', function (value) {
       if ($scope.activePage.updateSlug === false) {
         return;
       }
@@ -100,7 +102,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
       for (var i = 0; i < data.pages.length; i++) {
         data.pages[i].isVisible = true;
         data.pages[i].updateSlug = false;
-      };
+      }
 
       $scope.activePage = data.pages[0];
       $scope.pages = data.pages;

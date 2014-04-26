@@ -38,9 +38,9 @@ app.factory('AuthService', function ($http, $location, $cookies, Session, USER_R
       },
       getApiCredentials: function () {
         return {
-          user_id: Session.userId,
-          api_key: Session.apiKey
-        }
+          user_id: Session.userId, // jshint ignore:line
+          api_key: Session.apiKey // jshint ignore:line
+        };
       }
     };
   });
