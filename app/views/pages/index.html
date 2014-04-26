@@ -31,6 +31,7 @@
                           ng-class="activeLanguage == key ? 'active' : ''"
                           ng-repeat="(key, name) in {'all': 'All', 'en': 'English', 'lv': 'Latviešu', 'ru': 'Russian'}">
                           <a ng-click="$parent.activeLanguage = key">
+                            <i class="flag-icon" ng-class="key === 'en' ? 'us' : key" ng-if="key !== 'all'"></i>
                             {{ name }}
                           </a>
                         </li>
@@ -54,8 +55,8 @@
                       ng-click="editPage(page)">
                       <!-- <td class="small-col"><input type="checkbox" name="action" ng-value="page.id" /></td> -->
                       <td class="subject">{{ page.title }}</td>
-                      <td class="small-col">
-                        {{ page.language }}
+                      <td class="small-col flag">
+                        <i class="flag-icon" ng-class="page.language === 'en' ? 'us' : page.language"></i>
                       </td>
                       <td class="small-col">
                         <span class="label" ng-class="{live: 'label-success', draft: 'label-warning'}[page.status]">{{ page.status }}</span>

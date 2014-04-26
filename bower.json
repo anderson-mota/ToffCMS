@@ -12,7 +12,8 @@
     "sass-bootstrap": "3.0.2",
     "font-awesome-bower": "~4.0.3",
     "ionicons": "1.4.1",
-    "angular-slugify": "1.0.0"
+    "angular-slugify": "1.0.0",
+    "famfamfam-flags-sprite": "dev-master"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",
