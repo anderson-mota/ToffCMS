@@ -27,7 +27,7 @@ var app = angular.module('adminApp', [
     $rootScope.getLayout = function () {
       var layout = 'default.html';
 
-      if ($route.current === null) {
+      if ($route.current === undefined) {
         return;
       }
 

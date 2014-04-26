@@ -14,14 +14,29 @@
                 <!-- compose message btn -->
                 <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#page-crud-modal" ng-click="newPage()"><i class="fa fa-pencil"></i> New page</a>
                 <!-- Navigation - folders-->
+
                 <div style="margin-top: 15px;">
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="header">Filter</li>
-                        <li ng-class="activeStatus=='all' ? 'active' : ''"><a ng-click="showByStatus('all')"><i class="fa fa-inbox"></i> All ({{ pages.length }})</a></li>
-                        <li ng-class="activeStatus=='live' ? 'active' : ''"><a ng-click="showByStatus('live')"><i class="fa fa-check"></i> Live</a></li>
-                        <li ng-class="activeStatus=='draft' ? 'active' : ''"><a ng-click="showByStatus('draft')"><i class="fa fa-pencil-square-o"></i> Drafts</a></li>
+                        <li class="header">Status</li>
+                        <li ng-class="activeStatus=='all' ? 'active' : ''"><a ng-click="activeStatus = 'all'"><i class="fa fa-inbox"></i> All ({{ pages.length }})</a></li>
+                        <li ng-class="activeStatus=='live' ? 'active' : ''"><a ng-click="activeStatus = 'live'"><i class="fa fa-check"></i> Live</a></li>
+                        <li ng-class="activeStatus=='draft' ? 'active' : ''"><a ng-click="activeStatus = 'draft'"><i class="fa fa-pencil-square-o"></i> Drafts</a></li>
                     </ul>
                 </div>
+
+                <div style="margin-top: 15px;">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="header">Language</li>
+                        <li
+                          ng-class="activeLanguage == key ? 'active' : ''"
+                          ng-repeat="(key, name) in {'all': 'All', 'en': 'English', 'lv': 'Latviešu', 'ru': 'Russian'}">
+                          <a ng-click="$parent.activeLanguage = key">
+                            {{ name }}
+                          </a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
 
             <div class="col-md-9 col-sm-8">
@@ -31,9 +46,17 @@
               <div class="table-responsive">
                 <table class="table table-mailbox table-hover">
                   <tbody>
-                    <tr class="clickable" ng-repeat="page in pages" ng-show="page.isVisible" ng-click="editPage(page)">
+
+                    <tr
+                      class="clickable"
+                      ng-repeat="page in pages"
+                      ng-show="(activeLanguage === 'all' || activeLanguage === page.language) && (activeStatus === 'all' || activeStatus === page.status)"
+                      ng-click="editPage(page)">
                       <!-- <td class="small-col"><input type="checkbox" name="action" ng-value="page.id" /></td> -->
                       <td class="subject">{{ page.title }}</td>
+                      <td class="small-col">
+                        {{ page.language }}
+                      </td>
                       <td class="small-col">
                         <span class="label" ng-class="{live: 'label-success', draft: 'label-warning'}[page.status]">{{ page.status }}</span>
                       </td>
@@ -42,6 +65,7 @@
                         <button class="btn btn-danger btn-xs" ng-click="deletePage($index)"><i class="fa fa-trash-o"></i></button>
                       </td>
                     </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -71,10 +95,18 @@
         </ul>
       </div>
 
+
       <form name="pageForm" ng-submit="processForm()">
+
+
         <input type="hidden" name="id" ng-model="activePage.id">
 
         <div class="modal-body tab-content">
+
+          <div class="bs-callout bs-callout-danger" ng-if="formErrors">
+            <h4>Error!</h4>
+            <p ng-repeat="error in formErrors">{{ formErrors[$index] }}</p>
+          </div>
 
           <div class="tab-pane active" id="basic">
             <div class="form-group" ng-class="{ 'has-error': pageForm.title.$invalid && !pageForm.title.$pristine }">

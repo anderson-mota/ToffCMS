@@ -5,18 +5,12 @@
 app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
     $scope.pages = [];
     $scope.activeStatus = 'all';
+    $scope.activeLanguage = 'all';
     $scope.activePage = {};
+    $scope.formErrors = [];
 
     $scope.do = function ($event) {
       $event.preventDefault();
-    };
-
-    $scope.showByStatus = function (status) {
-      for (var i = 0; i < $scope.pages.length; i++) {
-        $scope.pages[i].isVisible = ($scope.pages[i].status === status || status === 'all');
-      }
-
-      $scope.activeStatus = status;
     };
 
     /**
@@ -25,6 +19,8 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
      * @return {void}
      */
     $scope.newPage = function () {
+      $scope.formErrors = [];
+      $scope.pageForm.$setPristine();
       $scope.activePage = {
         status: 'draft',
         language: 'en',
@@ -38,6 +34,8 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
      * @return {void}
      */
     $scope.editPage = function (page) {
+      $scope.formErrors = [];
+      $scope.pageForm.$setPristine();
       $scope.activePage = page;
     };
 
@@ -54,7 +52,6 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
       }
 
       Page.delete($scope.pages[$index], function () {
-        // ToDO: catch errors
         delete $scope.pages.splice($index, 1); // jshint ignore:line
       });
 
@@ -65,26 +62,28 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
      * @return {void}
      */
     $scope.processForm = function () {
-      console.log($scope.activePage);
 
-      // Update or create the page
+      // Error processing
+      var error = function (data) {
+        $scope.formErrors = data.data.message;
+      };
+
       if ($scope.activePage.id) {
-        Page.update($scope.activePage, function (data) {
-          console.log(data);
-          // ToDO: check for errors
 
+        // Update a page
+        Page.update($scope.activePage, function success (data) {
           $('#page-crud-modal').modal('hide');
-        });
-      } else {
-        Page.create($scope.activePage, function (data) {
-          console.log(data);
-          // ToDO: check for errors
+        }, error);
 
-          data.page.isVisible = true;
+      } else {
+
+        // Create a new page
+        Page.create($scope.activePage, function success (data) {
           data.page.updateSlug = false;
           $scope.pages.push(data.page);
           $('#page-crud-modal').modal('hide');
-        });
+        }, error);
+
       }
     };
 
@@ -100,7 +99,6 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
     // Get all of the pages
     Page.get(function (data) {
       for (var i = 0; i < data.pages.length; i++) {
-        data.pages[i].isVisible = true;
         data.pages[i].updateSlug = false;
       }
 

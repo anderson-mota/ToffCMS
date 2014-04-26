@@ -17,3 +17,15 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 a:hover, .clickable:hover {
   cursor: pointer;
 }
+
+.bs-callout {
+  margin: 0 0 20px 0;
+  padding: 10px 20px;
+  border-left: 3px solid #eee;
+}
+
+.bs-callout-danger {
+  background-color: #fdf7f7;
+  border-color: #d9534f;
+}
+
