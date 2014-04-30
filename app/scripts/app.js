@@ -21,7 +21,7 @@ var app = angular.module('adminApp', [
       });
   })
 
-  .run(function ($rootScope, $route, $cookieStore, AUTH_EVENTS, AuthService) {
+  .run(function ($rootScope, $route, $cookieStore, AUTH_EVENTS, AuthService, User) {
 
     // Get the layout of a view
     $rootScope.getLayout = function () {
@@ -40,6 +40,7 @@ var app = angular.module('adminApp', [
 
     // Check if the user is logged in
     if (AuthService.loadFromCookies()) {
+      new User();
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
     }
 
