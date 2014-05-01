@@ -32,3 +32,7 @@ a:hover, .clickable:hover {
 .flag-icon {
   margin-top: 4px;
 }
+
+.table > tbody + tbody {
+  border-top: 0;
+}

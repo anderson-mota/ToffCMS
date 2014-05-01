@@ -15,6 +15,7 @@ var app = angular.module('adminApp', [
       .when('/logout',                           {templateUrl: 'views/login.html',          controller: 'LogoutCtrl',         data: { authorizedRoles: [USER_ROLES.admin] }})
       .when('/pages',                            {templateUrl: 'views/pages/index.html',    controller: 'PageCtrl',           data: { authorizedRoles: [USER_ROLES.admin] }})
       .when('/pages/filter/:filter',             {templateUrl: 'views/pages/index.html',    controller: 'PageCtrl',           data: { authorizedRoles: [USER_ROLES.admin] }})
+      .when('/navigation',                       {templateUrl: 'views/navigation/index.html', controller: 'NavigationCtrl',   data: { authorizedRoles: [USER_ROLES.admin] }})
       .otherwise({
         redirectTo: '/',
         data: { authorizedRoles: USER_ROLES.admin }
@@ -62,5 +63,9 @@ var app = angular.module('adminApp', [
 
       }
     });
+
+    $rootScope.do = function ($event) {
+      $event.preventDefault();
+    };
 
   });

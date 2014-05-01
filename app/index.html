@@ -20,8 +20,9 @@
     <!-- endbuild -->
 
     <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="bower_components/iCheck/skins/minimal/minimal.css" />
     <link href="styles/AdminLTE.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
   <body ng-app="adminApp" class="skin-black fixed">
@@ -56,6 +57,7 @@
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-slugify/angular-slugify.js"></script>
+    <script src="bower_components/iCheck/icheck.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -73,6 +75,10 @@
     <script src="scripts/controllers/page.js"></script>
     <script src="scripts/services/page.js"></script>
     <script src="scripts/services/user.js"></script>
+    <script src="scripts/controllers/navigation.js"></script>
+    <script src="scripts/services/navigation.js"></script>
+    <script src="scripts/directives/icheck.js"></script>
+    <script src="scripts/directives/my-modal.js"></script>
     <!-- endbuild -->
 </body>
 </html>

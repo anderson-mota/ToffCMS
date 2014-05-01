@@ -1,0 +1,247 @@
+<section class="content">
+  <div class="mailbox row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+
+        <div class="box-body">
+          <div class="row">
+
+            <div class="col-md-3 col-sm-4">
+                <div class="box-header">
+                    <i class="fa fa-sitemap"></i>
+                    <h3 class="box-title">NAVIGATION</h3>
+                </div>
+
+                <!-- compose message btn -->
+                <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#navigation-form-modal" ng-click="newInstance()">
+                  <i class="fa fa-plus"></i>
+                  New navigation instance
+                </a>
+
+                <!-- Filters -->
+                <div style="margin-top: 15px;">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="header">Language</li>
+                        <li
+                          ng-class="activeLanguage == key ? 'active' : ''"
+                          ng-repeat="(key, name) in {'en': 'English', 'lv': 'Latviešu', 'ru': 'Russian'}">
+                          <a ng-click="$parent.activeLanguage = key">
+                            <i class="flag-icon" ng-class="key === 'en' ? 'us' : key"></i>
+                            {{ name }}
+                          </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="col-md-9 col-sm-8">
+
+              <div class="row pad"></div>
+
+              <div class="table-responsive">
+                <table class="table table-mailbox table-hover">
+
+                  <!-- Instances -->
+                  <tbody ng-repeat="instance in navigation">
+                    <tr
+                      class="clickable"
+                      ng-show="activeLanguage === instance.language"
+                      ng-click="editInstance(instance)">
+
+                      <td class="subject" colspan="2">{{ instance.title }}</td>
+
+                      <td class="small-col flag">
+                        <i class="flag-icon" ng-class="instance.language === 'en' ? 'us' : instance.language"></i>
+                      </td>
+
+                      <td class="small-col">
+                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#navigation-form-modal"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-danger btn-xs" ng-click="deleteInstance($index)"><i class="fa fa-trash-o"></i></button>
+                      </td>
+
+                    </tr>
+
+                    <!-- Child instances -->
+                    <tr
+                      class="clickable"
+                      ng-repeat="child in instance.children"
+                      ng-show="activeLanguage === child.language"
+                      ng-click="editInstance(child)">
+
+                      <td class="small-col"></td>
+
+                      <td class="subject">
+                        <i class="fa fa-angle-right"></i>
+                        {{ child.title }}
+                      </td>
+
+                      <td class="small-col flag">
+                        <i class="flag-icon" ng-class="child.language === 'en' ? 'us' : child.language"></i>
+                      </td>
+
+                      <td class="small-col">
+                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#navigation-form-modal"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-danger btn-xs" ng-click="deleteInstance($index)"><i class="fa fa-trash-o"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </div>
+
+            </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- NAVIGATION FORM MODAL -->
+<my-modal modalid="navigation-form-modal">
+
+  <my-modal-header>
+    <i class="fa fa-sitemap"></i>
+    Navigation instance
+  </my-modal-header>
+
+  <form name="instanceForm" ng-submit="processForm()">
+    <input type="hidden" name="id" ng-model="activeInstance.id">
+
+    <div class="modal-body">
+
+      <div class="bs-callout bs-callout-danger" ng-if="formErrors">
+        <h4>Error!</h4>
+        <p ng-repeat="error in formErrors">{{ formErrors[$index] }}</p>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-error': instanceForm.title.$invalid && !instanceForm.title.$pristine }">
+        <div class="input-group">
+          <span class="input-group-addon">Title:</span>
+          <input
+            type="text"
+            name="title"
+            class="form-control"
+            placeholder="Title"
+            ng-model="activeInstance.title"
+            ng-maxlength="100"
+            required>
+        </div>
+
+        <p ng-show="instanceForm.title.$dirty && instanceForm.title.$error.required" class="help-block">This field is required.</p>
+        <p ng-show="instanceForm.title.$error.maxlength" class="help-block">Title is too long.</p>
+      </div>
+
+      <!-- Select instance type -->
+      <div class="form-group form-horizontal">
+        <label class="control-label col-sm-3">URI:</label>
+        <div class="input-group">
+
+            <span class="input-group-addon">
+                <input type="radio"
+                  name="type"
+                  value="uri"
+                  ng-model="activeInstance.type"
+                  iCheck>
+            </span>
+
+            <input type="text"
+              name="uri"
+              class="form-control"
+              placeholder="URI"
+              ng-model="activeInstance.uri"
+              ng-disabled="activeInstance.type !== 'uri'">
+
+        </div><!-- /input-group -->
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group form-horizontal" ng-if="pages">
+        <label class="control-label col-sm-3">Page:</label>
+        <div class="input-group">
+
+            <span class="input-group-addon">
+                <input type="radio"
+                  name="type"
+                  value="page"
+                  ng-model="activeInstance.type"
+                  iCheck>
+            </span>
+
+            <select name="language"
+              class="form-control"
+              ng-model="activeInstance.page_id"
+              ng-disabled="activeInstance.type !== 'page'"
+              ng-options="page.id as page.title group by page.language for page in pages">
+              <option value="">-- Select Page --</option>
+            </select>
+
+        </div><!-- /input-group -->
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group form-horizontal">
+        <label class="control-label col-sm-3">Website:</label>
+        <div class="input-group">
+
+            <span class="input-group-addon">
+                <input type="radio"
+                  name="type"
+                  value="website"
+                  ng-model="activeInstance.type"
+                  iCheck>
+            </span>
+
+            <input type="text"
+              name="page"
+              class="form-control"
+              placeholder="http://"
+              ng-model="activeInstance.url"
+              ng-disabled="activeInstance.type !== 'website'">
+
+        </div><!-- /input-group -->
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="row">
+
+        <!-- Language -->
+        <div class="col-md-6">
+          <div class="form-group" ng-class="{ 'has-error': instanceForm.language.$invalid && !instanceForm.language.$pristine }">
+            <label>Language:</label>
+            <select name="language" class="form-control" ng-model="activeInstance.language" required>
+              <option value="en">English</option>
+              <option value="lv">Latviešu</option>
+              <option value="ru">Russian</option>
+            </select>
+
+            <p ng-show="instanceForm.language.$dirty && instanceForm.language.$error.required" class="help-block">This field is required.</p>
+          </div>
+        </div>
+
+        <!-- Target -->
+        <div class="col-md-6">
+          <div class="form-group" ng-class="{ 'has-error': instanceForm.target.$invalid && !instanceForm.target.$pristine }">
+            <label>Target:</label>
+            <select name="target" class="form-control" ng-model="activeInstance.target" required>
+              <option value="">Current window</option>
+              <option value="_blank">New window</option>
+            </select>
+
+            <p ng-show="instanceForm.target.$dirty && instanceForm.target.$error.required" class="help-block">This field is required.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="modal-footer clearfix">
+      <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+      <button type="submit" class="btn btn-primary pull-left" ng-disabled="instanceForm.$invalid"><i class="fa fa-check"></i> Save</button>
+    </div>
+  </form>
+</my-modal>

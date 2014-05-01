@@ -1,6 +1,9 @@
 {
   "name": "admin",
   "version": "0.0.0",
+  "main": [
+    "./iCheck/skins/minimal/minimal.css"
+  ],
   "dependencies": {
     "angular": "1.2.6",
     "json3": "~3.2.6",
@@ -13,7 +16,8 @@
     "font-awesome-bower": "~4.0.3",
     "ionicons": "1.4.1",
     "angular-slugify": "1.0.0",
-    "famfamfam-flags-sprite": "dev-master"
+    "famfamfam-flags-sprite": "latest",
+    "iCheck": "latest"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",
