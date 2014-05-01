@@ -1,3 +1,4 @@
+/* global confirm:true */
 'use strict';
 
 app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
@@ -29,8 +30,28 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
      */
     $scope.editInstance = function (instance) {
       $scope.formErrors = [];
-      $scope.instanceForm.$setPristine();
+      // $scope.instanceForm.$setPristine();
       $scope.activeInstance = instance;
+    };
+
+    /**
+     * Delete an instance
+     * @param  {object} instance
+     * @return {void}
+     */
+    $scope.deleteInstance = function (instance) {
+
+      if (confirm('Are you sure you want to delete this item?') === false)
+      {
+        return;
+      }
+
+      Navigation.delete(instance, function () {
+        Navigation.get(function (data) {
+          $scope.navigation = data.navigation;
+        });
+      });
+
     };
 
     /**
@@ -39,28 +60,24 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
      */
     $scope.processForm = function () {
 
-      console.log($scope.activeInstance);
-      return;
-
       // Error processing
       var error = function (data) {
         $scope.formErrors = data.data.message;
       };
 
-      if ($scope.activePage.id) {
+      if ($scope.activeInstance.id) {
 
-        // Update a page
-        Page.update($scope.activePage, function success () {
-          $('#page-crud-modal').modal('hide');
+        // Update a instance
+        Navigation.update($scope.activeInstance, function success () {
+          $('#navigation-form-modal').modal('hide');
         }, error);
 
       } else {
 
-        // Create a new page
-        Page.create($scope.activePage, function success (data) {
-          data.page.updateSlug = false;
-          $scope.pages.push(data.page);
-          $('#page-crud-modal').modal('hide');
+        // Create a new instance
+        Navigation.create($scope.activeInstance, function success (data) {
+          $scope.navigation.push(data.navigation);
+          $('#navigation-form-modal').modal('hide');
         }, error);
 
       }
@@ -68,10 +85,6 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
 
     // Get all of the navigation
     Navigation.get(function (data) {
-      for (var i = 0; i < data.navigation.length; i++) {
-        data.navigation[i].updateSlug = false;
-      }
-
       $scope.activeInstance = data.navigation[0];
       $scope.navigation = data.navigation;
     });

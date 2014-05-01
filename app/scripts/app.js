@@ -22,7 +22,10 @@ var app = angular.module('adminApp', [
       });
   })
 
-  .run(function ($rootScope, $route, $cookieStore, AUTH_EVENTS, AuthService, User) {
+  .run(function ($rootScope, $route, $cookieStore, AUTH_EVENTS, AuthService, User, LANGUAGES) {
+
+    // Global constants
+    $rootScope.LANGUAGES = LANGUAGES;
 
     // Get the layout of a view
     $rootScope.getLayout = function () {

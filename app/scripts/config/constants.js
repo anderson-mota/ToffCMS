@@ -3,6 +3,12 @@
 
 app
 
+  .constant('LANGUAGES', {
+    'en': 'English',
+    'lv': 'Latvian',
+    'ru': 'Russian'
+  })
+
   .constant('AUTH_EVENTS', {
     loginSuccess: 'auth-login-success',
     loginFailed: 'auth-login-failed',

@@ -24,7 +24,7 @@
                         <li class="header">Language</li>
                         <li
                           ng-class="activeLanguage == key ? 'active' : ''"
-                          ng-repeat="(key, name) in {'en': 'English', 'lv': 'Latviešu', 'ru': 'Russian'}">
+                          ng-repeat="(key, name) in LANGUAGES">
                           <a ng-click="$parent.activeLanguage = key">
                             <i class="flag-icon" ng-class="key === 'en' ? 'us' : key"></i>
                             {{ name }}
@@ -57,7 +57,7 @@
 
                       <td class="small-col">
                         <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#navigation-form-modal"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-danger btn-xs" ng-click="deleteInstance($index)"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-danger btn-xs" ng-click="deleteInstance(instance)"><i class="fa fa-trash-o"></i></button>
                       </td>
 
                     </tr>
@@ -67,7 +67,9 @@
                       class="clickable"
                       ng-repeat="child in instance.children"
                       ng-show="activeLanguage === child.language"
-                      ng-click="editInstance(child)">
+                      ng-click="editInstance(child)"
+                      data-toggle="modal"
+                      data-target="#navigation-form-modal">
 
                       <td class="small-col"></td>
 
@@ -81,7 +83,7 @@
                       </td>
 
                       <td class="small-col">
-                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#navigation-form-modal"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
                         <button class="btn btn-danger btn-xs" ng-click="deleteInstance($index)"><i class="fa fa-trash-o"></i></button>
                       </td>
                     </tr>
@@ -212,10 +214,12 @@
         <div class="col-md-6">
           <div class="form-group" ng-class="{ 'has-error': instanceForm.language.$invalid && !instanceForm.language.$pristine }">
             <label>Language:</label>
-            <select name="language" class="form-control" ng-model="activeInstance.language" required>
-              <option value="en">English</option>
-              <option value="lv">Latviešu</option>
-              <option value="ru">Russian</option>
+            <select
+              name="language"
+              class="form-control"
+              ng-model="activeInstance.language"
+              ng-options="key as value for (key, value) in LANGUAGES"
+              required>
             </select>
 
             <p ng-show="instanceForm.language.$dirty && instanceForm.language.$error.required" class="help-block">This field is required.</p>
@@ -226,12 +230,10 @@
         <div class="col-md-6">
           <div class="form-group" ng-class="{ 'has-error': instanceForm.target.$invalid && !instanceForm.target.$pristine }">
             <label>Target:</label>
-            <select name="target" class="form-control" ng-model="activeInstance.target" required>
+            <select name="target" class="form-control" ng-model="activeInstance.target">
               <option value="">Current window</option>
               <option value="_blank">New window</option>
             </select>
-
-            <p ng-show="instanceForm.target.$dirty && instanceForm.target.$error.required" class="help-block">This field is required.</p>
           </div>
         </div>
 
