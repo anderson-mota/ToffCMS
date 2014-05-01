@@ -27,11 +27,16 @@
                 <div style="margin-top: 15px;">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="header">Language</li>
+                        <li ng-class="activeLanguage === 'all' ? 'active' : ''">
+                          <a ng-click="activeLanguage = 'all'">
+                            All
+                          </a>
+                        </li>
                         <li
                           ng-class="activeLanguage == key ? 'active' : ''"
-                          ng-repeat="(key, name) in {'all': 'All', 'en': 'English', 'lv': 'Latviešu', 'ru': 'Russian'}">
+                          ng-repeat="(key, name) in LANGUAGES">
                           <a ng-click="$parent.activeLanguage = key">
-                            <i class="flag-icon" ng-class="key === 'en' ? 'us' : key" ng-if="key !== 'all'"></i>
+                            <i class="flag-icon" ng-class="key === 'en' ? 'us' : key"></i>
                             {{ name }}
                           </a>
                         </li>
@@ -88,8 +93,8 @@
 
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs pull-right">
-            <li><a href="#textarea" ng-click="do($event)" data-toggle="tab">Content</a></li>
-            <li class="active"><a href="#basic" ng-click="do($event)" data-toggle="tab">Basic information</a></li>
+            <li><a href="#textarea" ng-click="$root.do($event)" data-toggle="tab">Content</a></li>
+            <li class="active"><a href="#basic" ng-click="$root.do($event)" data-toggle="tab">Basic information</a></li>
             <li class="pull-left header modal-title">
               <i class="fa fa-edit"></i> Create a new page
             </li>
@@ -160,10 +165,12 @@
               <div class="col-md-6">
                 <div class="form-group" ng-class="{ 'has-error': pageForm.language.$invalid && !pageForm.language.$pristine }">
                   <label>Language:</label>
-                  <select name="language" class="form-control" ng-model="activePage.language" required>
-                    <option value="en">English</option>
-                    <option value="lv">Latviešu</option>
-                    <option value="ru">Russian</option>
+                  <select
+                    name="language"
+                    class="form-control"
+                    ng-model="activePage.language"
+                    ng-options="key as value for (key, value) in LANGUAGES"
+                    required>
                   </select>
 
                   <p ng-show="pageForm.language.$dirty && pageForm.language.$error.required" class="help-block">This field is required.</p>

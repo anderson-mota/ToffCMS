@@ -9,10 +9,6 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
     $scope.activePage = {};
     $scope.formErrors = [];
 
-    $scope.do = function ($event) {
-      $event.preventDefault();
-    };
-
     /**
      * Create a new page
      * Triggers on `create a page` click
