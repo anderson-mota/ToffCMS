@@ -86,120 +86,117 @@
 </section>
 
 
- <!-- CREATE PAGE MODAL -->
-<div class="modal fade" id="page-crud-modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<!-- CREATE PAGE MODAL -->
+<my-modal modalid="page-crud-modal">
 
-      <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs pull-right">
-            <li><a href="#textarea" ng-click="$root.do($event)" data-toggle="tab">Content</a></li>
-            <li class="active"><a href="#basic" ng-click="$root.do($event)" data-toggle="tab">Basic information</a></li>
-            <li class="pull-left header modal-title">
-              <i class="fa fa-edit"></i> Create a new page
-            </li>
-        </ul>
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs pull-right">
+        <li><a href="#textarea" ng-click="$root.do($event)" data-toggle="tab">Content</a></li>
+        <li class="active"><a href="#basic" ng-click="$root.do($event)" data-toggle="tab">Basic information</a></li>
+        <li class="pull-left header modal-title">
+          <i class="fa fa-edit"></i>
+          <span ng-if="!activePage.id">Create a new page</span>
+          <span ng-if="activePage.id">Edit a page</span>
+        </li>
+    </ul>
+  </div>
+
+
+  <form name="pageForm" ng-submit="processForm()">
+    <input type="hidden" name="id" ng-model="activePage.id">
+
+    <div class="modal-body tab-content">
+
+      <div class="bs-callout bs-callout-danger" ng-if="formErrors">
+        <h4>Error!</h4>
+        <p ng-repeat="error in formErrors">{{ formErrors[$index] }}</p>
+      </div>
+
+      <div class="tab-pane active" id="basic">
+        <div class="form-group" ng-class="{ 'has-error': pageForm.title.$invalid && !pageForm.title.$pristine }">
+          <div class="input-group">
+            <span class="input-group-addon">Title:</span>
+            <input
+              type="text"
+              name="title"
+              class="form-control"
+              placeholder="Page title"
+              ng-model="activePage.title"
+              ng-maxlength="100"
+              required>
+          </div>
+
+          <p ng-show="pageForm.title.$dirty && pageForm.title.$error.required" class="help-block">This field is required.</p>
+          <p ng-show="pageForm.title.$error.maxlength" class="help-block">Title is too long.</p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': pageForm.slug.$invalid && !pageForm.slug.$pristine }">
+          <div class="input-group">
+            <span class="input-group-addon">Slug:</span>
+            <input
+              type="text"
+              name="slug"
+              class="form-control"
+              placeholder="Page slug"
+              ng-model="activePage.slug"
+              ng-pattern="/^[a-z0-9]+(?:-[a-z0-9]+)*$/"
+              ng-maxlength="100">
+          </div>
+
+          <p ng-show="pageForm.slug.$error.maxlength" class="help-block">Slug is too long.</p>
+          <p ng-show="pageForm.slug.$error.pattern" class="help-block">Slug contains invalid characters OR starts/ends with `-`.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group" ng-class="{ 'has-error': pageForm.status.$invalid && !pageForm.status.$pristine }">
+              <label>Status:</label>
+              <select name="status" class="form-control" ng-model="activePage.status" required>
+                <option value="live">Live</option>
+                <option value="draft">Draft</option>
+              </select>
+
+              <p ng-show="pageForm.status.$dirty && pageForm.status.$error.required" class="help-block">This field is required.</p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group" ng-class="{ 'has-error': pageForm.language.$invalid && !pageForm.language.$pristine }">
+              <label>Language:</label>
+              <select
+                name="language"
+                class="form-control"
+                ng-model="activePage.language"
+                ng-options="key as value for (key, value) in LANGUAGES"
+                required>
+              </select>
+
+              <p ng-show="pageForm.language.$dirty && pageForm.language.$error.required" class="help-block">This field is required.</p>
+            </div>
+          </div>
+        </div>
       </div>
 
 
-      <form name="pageForm" ng-submit="processForm()">
-
-
-        <input type="hidden" name="id" ng-model="activePage.id">
-
-        <div class="modal-body tab-content">
-
-          <div class="bs-callout bs-callout-danger" ng-if="formErrors">
-            <h4>Error!</h4>
-            <p ng-repeat="error in formErrors">{{ formErrors[$index] }}</p>
-          </div>
-
-          <div class="tab-pane active" id="basic">
-            <div class="form-group" ng-class="{ 'has-error': pageForm.title.$invalid && !pageForm.title.$pristine }">
-              <div class="input-group">
-                <span class="input-group-addon">Title:</span>
-                <input
-                  type="text"
-                  name="title"
-                  class="form-control"
-                  placeholder="Page title"
-                  ng-model="activePage.title"
-                  ng-maxlength="100"
-                  required>
-              </div>
-
-              <p ng-show="pageForm.title.$dirty && pageForm.title.$error.required" class="help-block">This field is required.</p>
-              <p ng-show="pageForm.title.$error.maxlength" class="help-block">Title is too long.</p>
-            </div>
-
-            <div class="form-group" ng-class="{ 'has-error': pageForm.slug.$invalid && !pageForm.slug.$pristine }">
-              <div class="input-group">
-                <span class="input-group-addon">Slug:</span>
-                <input
-                  type="text"
-                  name="slug"
-                  class="form-control"
-                  placeholder="Page slug"
-                  ng-model="activePage.slug"
-                  ng-pattern="/^[a-z0-9]+(?:-[a-z0-9]+)*$/"
-                  ng-maxlength="100">
-              </div>
-
-              <p ng-show="pageForm.slug.$error.maxlength" class="help-block">Slug is too long.</p>
-              <p ng-show="pageForm.slug.$error.pattern" class="help-block">Slug contains invalid characters OR starts/ends with `-`.</p>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group" ng-class="{ 'has-error': pageForm.status.$invalid && !pageForm.status.$pristine }">
-                  <label>Status:</label>
-                  <select name="status" class="form-control" ng-model="activePage.status" required>
-                    <option value="live">Live</option>
-                    <option value="draft">Draft</option>
-                  </select>
-
-                  <p ng-show="pageForm.status.$dirty && pageForm.status.$error.required" class="help-block">This field is required.</p>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group" ng-class="{ 'has-error': pageForm.language.$invalid && !pageForm.language.$pristine }">
-                  <label>Language:</label>
-                  <select
-                    name="language"
-                    class="form-control"
-                    ng-model="activePage.language"
-                    ng-options="key as value for (key, value) in LANGUAGES"
-                    required>
-                  </select>
-
-                  <p ng-show="pageForm.language.$dirty && pageForm.language.$error.required" class="help-block">This field is required.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="tab-pane" id="textarea">
-            <div class="form-group" ng-class="{ 'has-error': pageForm.body.$invalid && !pageForm.body.$pristine }">
-              <textarea
-                name="body"
-                placeholder="Content (markdown format)"
-                class="form-control textarea"
-                rows="12"
-                ng-model="activePage.body"
-                required></textarea>
-            </div>
-            <p ng-show="pageForm.body.$dirty && pageForm.body.$error.required" class="help-block">This field is required.</p>
-            <p class="help-block">Don't know what's markdown or how to use it? <a href="https://daringfireball.net/projects/markdown/basics" target="_blank">Click here!</a></p>
-          </div>
-
+      <div class="tab-pane" id="textarea">
+        <div class="form-group" ng-class="{ 'has-error': pageForm.body.$invalid && !pageForm.body.$pristine }">
+          <textarea
+            name="body"
+            placeholder="Content (markdown format)"
+            class="form-control textarea"
+            rows="12"
+            ng-model="activePage.body"
+            required></textarea>
         </div>
-        <div class="modal-footer clearfix">
-          <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-          <button type="submit" class="btn btn-primary pull-left" ng-disabled="pageForm.$invalid"><i class="fa fa-check"></i> Save</button>
-        </div>
-      </form>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        <p ng-show="pageForm.body.$dirty && pageForm.body.$error.required" class="help-block">This field is required.</p>
+        <p class="help-block">Don't know what's markdown or how to use it? <a href="https://daringfireball.net/projects/markdown/basics" target="_blank">Click here!</a></p>
+      </div>
+
+    </div>
+    <div class="modal-footer clearfix">
+      <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+      <button type="submit" class="btn btn-primary pull-left" ng-disabled="pageForm.$invalid"><i class="fa fa-check"></i> Save</button>
+    </div>
+  </form>
+
+</my-modal>

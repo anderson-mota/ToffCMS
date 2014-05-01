@@ -16,7 +16,6 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
      */
     $scope.newPage = function () {
       $scope.formErrors = [];
-      $scope.pageForm.$setPristine();
       $scope.activePage = {
         status: 'draft',
         language: 'en',
@@ -31,7 +30,6 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
      */
     $scope.editPage = function (page) {
       $scope.formErrors = [];
-      $scope.pageForm.$setPristine();
       $scope.activePage = page;
     };
 
