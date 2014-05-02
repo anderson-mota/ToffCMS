@@ -39,57 +39,33 @@
 
               <div class="row pad"></div>
 
-              <div class="table-responsive">
-                <table class="table table-mailbox table-hover">
+              <div class="table-responsive" ui-tree="treeOptions">
+                <table class="table table-mailbox table-hover" ng-model="navigation" ui-tree-nodes>
+                  <tbody
+                    ng-repeat="instance in navigation"
+                    ng-show="activeLanguage === instance.language"
+                    ui-tree-node>
+                    <tr ng-include="'items_renderer.html'"></tr>
 
-                  <!-- Instances -->
-                  <tbody ng-repeat="instance in navigation">
-                    <tr
-                      class="clickable"
-                      ng-show="activeLanguage === instance.language"
-                      ng-click="editInstance(instance)">
+                    <tr>
+                      <td colspan="5" class="table-children">
 
-                      <td class="subject" colspan="2">{{ instance.title }}</td>
+                        <table class="table table-mailbox table-hover" ng-model="instance.children" ui-tree-nodes="children">
+                          <tbody ng-repeat="instance in instance.children" ui-tree-node>
+                            <tr ng-include="'items_renderer.html'"></tr>
+                          </tbody>
+                        </table>
 
-                      <td class="small-col flag">
-                        <i class="flag-icon" ng-class="instance.language === 'en' ? 'us' : instance.language"></i>
-                      </td>
-
-                      <td class="small-col">
-                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#navigation-form-modal"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-danger btn-xs" ng-click="deleteInstance(instance)"><i class="fa fa-trash-o"></i></button>
-                      </td>
-
-                    </tr>
-
-                    <!-- Child instances -->
-                    <tr
-                      class="clickable"
-                      ng-repeat="child in instance.children"
-                      ng-show="activeLanguage === child.language"
-                      ng-click="editInstance(child)"
-                      data-toggle="modal"
-                      data-target="#navigation-form-modal">
-
-                      <td class="small-col"></td>
-
-                      <td class="subject">
-                        <i class="fa fa-angle-right"></i>
-                        {{ child.title }}
-                      </td>
-
-                      <td class="small-col flag">
-                        <i class="flag-icon" ng-class="child.language === 'en' ? 'us' : child.language"></i>
-                      </td>
-
-                      <td class="small-col">
-                        <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-danger btn-xs" ng-click="deleteInstance($index)"><i class="fa fa-trash-o"></i></button>
                       </td>
                     </tr>
                   </tbody>
-
                 </table>
+              </div>
+
+              <div class="row pad">
+                <div class="col-sm-12">
+                  <button class="btn btn-success" ng-click="saveOrder()" ng-disabled="!dragHappened">Save the order</button>
+                </div>
               </div>
 
             </div>
@@ -247,3 +223,19 @@
     </div>
   </form>
 </my-modal>
+
+<!-- Instances -->
+<script type="text/ng-template" id="items_renderer.html">
+  <td class="small-col" ui-tree-handle><i class="fa fa-list"></i></td>
+
+  <td class="subject" colspan="2">{{ instance.title }}</td>
+
+  <td class="small-col flag">
+    <i class="flag-icon" ng-class="instance.language === 'en' ? 'us' : instance.language"></i>
+  </td>
+
+  <td class="small-col">
+    <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#navigation-form-modal"><i class="fa fa-pencil"></i></button>
+    <button class="btn btn-danger btn-xs" ng-click="deleteInstance(instance)"><i class="fa fa-trash-o"></i></button>
+  </td>
+</script>

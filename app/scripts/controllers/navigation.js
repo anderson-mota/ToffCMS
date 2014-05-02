@@ -8,6 +8,14 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
     $scope.activeLanguage = 'en';
     $scope.activeInstance = {};
     $scope.formErrors = [];
+    $scope.dragHappened = false;
+
+    $scope.saveOrder = function () {
+      var order = prepareOrder($scope.navigation);
+
+      $scope.dragHappened = false;
+      console.log(order); // ToDo: save
+    };
 
     /**
      * Create a new instance
@@ -16,7 +24,6 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
      */
     $scope.newInstance = function () {
       $scope.formErrors = [];
-      // $scope.instanceForm.$setPristine();
       $scope.activeInstance = {
         type: 'uri',
         language: 'en'
@@ -30,7 +37,6 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
      */
     $scope.editInstance = function (instance) {
       $scope.formErrors = [];
-      // $scope.instanceForm.$setPristine();
       $scope.activeInstance = instance;
     };
 
@@ -83,6 +89,16 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
       }
     };
 
+    /**
+     * Update the save button
+     * @type {Object}
+     */
+    $scope.treeOptions = {
+      dropped: function () {
+        $scope.dragHappened = true;
+      }
+    };
+
     // Get all of the navigation
     Navigation.get(function (data) {
       $scope.activeInstance = data.navigation[0];
@@ -93,5 +109,28 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
     Page.get(function (data) {
       $scope.pages = data.pages;
     });
+
+    /**
+     * Prepare the order that will be sent to the backend
+     * @param  {array} data
+     * @return {array}
+     */
+    var prepareOrder = function (data) {
+      var order = [];
+
+      angular.forEach(data, function (value, key) {
+        var d = {
+          id: value.id
+        };
+
+        if (value.children !== undefined && value.children.length > 0) {
+          d.children = prepareOrder(value.children);
+        }
+
+        order.push(d);
+      });
+
+      return order;
+    };
 
   });

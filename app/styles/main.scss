@@ -36,3 +36,27 @@ a:hover, .clickable:hover {
 .table > tbody + tbody {
   border-top: 0;
 }
+
+table.angular-ui-tree-nodes {
+  display: table;
+}
+tbody.angular-ui-tree-node {
+  display: table-row-group;
+}
+tr.angular-ui-tree-handle,
+tr.angular-ui-tree-node {
+  display: table-row;
+}
+
+table.table tr > td.table-children {
+  padding: 0 0 0 30px;
+  background: whitesmoke;
+}
+table.table td.table-children > table {
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 0;
+}
+table.table tr > td > table td {
+  border: 0;
+}

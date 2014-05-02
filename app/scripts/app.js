@@ -6,7 +6,8 @@ var app = angular.module('adminApp', [
   'ngResource',
   'ngRoute',
   'ngCookies',
-  'slugifier'
+  'slugifier',
+  'ui.tree'
 ])
   .config(function ($routeProvider, USER_ROLES) {
     $routeProvider
@@ -80,13 +81,13 @@ var app = angular.module('adminApp', [
       // If window is small enough, enable sidebar push menu
       if ($(window).width() <= 992) {
         $('.row-offcanvas').toggleClass('active');
-        $('.left-side').removeClass("collapse-left");
-        $(".right-side").removeClass("strech");
-        $('.row-offcanvas').toggleClass("relative");
+        $('.left-side').removeClass('collapse-left');
+        $('.right-side').removeClass('strech');
+        $('.row-offcanvas').toggleClass('relative');
       } else {
         // Else, enable content streching
-        $('.left-side').toggleClass("collapse-left");
-        $(".right-side").toggleClass("strech");
+        $('.left-side').toggleClass('collapse-left');
+        $('.right-side').toggleClass('strech');
       }
     };
 
