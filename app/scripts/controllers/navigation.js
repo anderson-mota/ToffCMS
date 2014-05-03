@@ -9,12 +9,24 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
     $scope.activeInstance = {};
     $scope.formErrors = [];
     $scope.dragHappened = false;
+    $scope.orderSaveClicked = false;
+    $scope.orderSaved = false;
 
+    /**
+     * Save the order of links
+     * @return {void}
+     */
     $scope.saveOrder = function () {
       var order = prepareOrder($scope.navigation);
 
       $scope.dragHappened = false;
-      console.log(order); // ToDo: save
+      $scope.orderSaveClicked = true;
+
+      // Update the order
+      Navigation.updateOrder({data: order}, function () {
+        $scope.orderSaveClicked = false;
+        $scope.orderSaved = true;
+      });
     };
 
     /**
@@ -118,9 +130,10 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
     var prepareOrder = function (data) {
       var order = [];
 
-      angular.forEach(data, function (value, key) {
+      angular.forEach(data, function (value) {
         var d = {
-          id: value.id
+          id: value.id,
+          children: []
         };
 
         if (value.children !== undefined && value.children.length > 0) {

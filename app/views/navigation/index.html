@@ -65,6 +65,8 @@
               <div class="row pad">
                 <div class="col-sm-12">
                   <button class="btn btn-success" ng-click="saveOrder()" ng-disabled="!dragHappened">Save the order</button>
+                  <i class="fa fa-spinner fa-spin" ng-if="orderSaveClicked"></i>
+                  <i class="fa fa-check" ng-if="!dragHappened && orderSaved"></i>
                 </div>
               </div>
 
