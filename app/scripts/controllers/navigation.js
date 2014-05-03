@@ -64,7 +64,7 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
         return;
       }
 
-      Navigation.delete(instance, function () {
+      Navigation.delete({id: instance.id}, function () {
         Navigation.get(function (data) {
           $scope.navigation = data.navigation;
         });
