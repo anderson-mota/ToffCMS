@@ -60,3 +60,40 @@ table.table td.table-children > table {
 table.table tr > td > table td {
   border: 0;
 }
+
+#gallery .timeline-body {
+  margin-bottom: 20px;
+
+  .pull-center {
+    text-align: center;
+    margin: 0 auto 15px auto;
+    border-bottom: 1px solid #dfdfdf;
+    max-height: 18px;
+    margin-bottom: 15px;
+  }
+
+  .timeline-image {
+    margin-bottom: 15px;
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    a.delete {
+      width: 100%;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    // Loading circle behind gallery images
+    img {
+      width: 150px;
+      height: 100px;
+      background: url('/images/ajax-loader1.gif') no-repeat center center;
+
+      &.loaded {
+        background-image: none;
+      }
+    }
+  }
+}

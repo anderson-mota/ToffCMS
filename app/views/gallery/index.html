@@ -1,0 +1,72 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Galleries</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <ul id="gallery" class="timeline">
+
+        <!-- timeline item -->
+        <li ng-repeat="gallery in galleries">
+          <i class="fa fa-camera bg-purple"></i>
+          <div class="timeline-item">
+            <a href="#/gallery/{{ gallery.slug }}" class="pull-right btn btn-success btn-xs"><i class="fa fa-plus"></i> Add</a>
+
+            <h3 class="timeline-header">
+              <a href="#/gallery/{{ gallery.slug }}">{{ gallery.title }}</a>
+            </h3>
+
+            <div class="timeline-body">
+
+              <!-- ToDo -->
+              <input type="file" ng-file-select="onFileSelect($files, gallery.id)" multiple>
+
+              <div class="row">
+
+                <!-- Display images -->
+                <div class="col-md-2 timeline-image"
+                  ng-repeat="item in gallery.items"
+                  ng-if="displayAllImages || $index < maxLoadedImages">
+
+                  <a target="_blank"
+                    ng-href="http://api.historymakers.lv/image/{{ item.content }}">
+                    <img ng-src="http://api.historymakers.lv/image/small/{{ item.content }}" onload="this.className+=' loaded'" alt="{{ item.id }}" class="img-responsive" />
+                  </a>
+
+                  <a target="_blank" class="btn btn-danger btn-xs delete"
+                    ng-click="deleteItem(gallery.id, $index)">
+                    Delete
+                  </a>
+
+                </div>
+
+              </div>
+
+              <!-- Nothing in this gallery: error -->
+              <alert type="danger" ng-if="!gallery.items.length">There are no items in this gallery. Why not <a href="#/gallery/{{ gallery.slug }}">add some</a>?</alert>
+
+              <!-- Load/unload all images -->
+              <div class="pull-center" ng-show="gallery.items.length > maxLoadedImages">
+                <a class="btn btn-default" ng-model="displayAllImages" ng-show="!displayAllImages" btn-checkbox>
+                  <i class="fa fa-caret-down"></i> Load all images <i class="fa fa-caret-down"></i>
+                </a>
+                <a class="btn btn-default" ng-model="displayAllImages" ng-show="displayAllImages" btn-checkbox>
+                  <i class="fa fa-caret-up"></i> Un-load images <i class="fa fa-caret-up"></i>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </li>
+        <!-- END timeline item -->
+
+        <li>
+          <i class="fa fa-camera bg-purple"></i>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

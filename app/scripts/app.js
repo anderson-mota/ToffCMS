@@ -7,7 +7,9 @@ var app = angular.module('adminApp', [
   'ngRoute',
   'ngCookies',
   'slugifier',
-  'ui.tree'
+  'ui.tree',
+  'ui.bootstrap',
+  'angularFileUpload'
 ])
   .config(function ($routeProvider, USER_ROLES) {
     $routeProvider
@@ -15,7 +17,7 @@ var app = angular.module('adminApp', [
       .when('/login',                            {templateUrl: 'views/login.html',          controller: 'LoginCtrl',          data: { authorizedRoles: USER_ROLES.all }, layout: 'login.html' })
       .when('/logout',                           {templateUrl: 'views/login.html',          controller: 'LogoutCtrl',         data: { authorizedRoles: [USER_ROLES.admin] }})
       .when('/pages',                            {templateUrl: 'views/pages/index.html',    controller: 'PageCtrl',           data: { authorizedRoles: [USER_ROLES.admin] }})
-      .when('/pages/filter/:filter',             {templateUrl: 'views/pages/index.html',    controller: 'PageCtrl',           data: { authorizedRoles: [USER_ROLES.admin] }})
+      .when('/gallery',                          {templateUrl: 'views/gallery/index.html',  controller: 'GalleryCtrl',        data: { authorizedRoles: [USER_ROLES.admin] }})
       .when('/navigation',                       {templateUrl: 'views/navigation/index.html', controller: 'NavigationCtrl',   data: { authorizedRoles: [USER_ROLES.admin] }})
       .otherwise({
         redirectTo: '/',
