@@ -68,6 +68,10 @@ table.table tr > td > table td {
 #gallery .timeline-body {
   margin-bottom: 20px;
 
+  .angular-ui-tree-empty {
+    display: none;
+  }
+
   .row > div {
     max-width: 180px;
   }
