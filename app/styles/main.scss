@@ -68,6 +68,10 @@ table.table tr > td > table td {
 #gallery .timeline-body {
   margin-bottom: 20px;
 
+  .row > div {
+    max-width: 180px;
+  }
+
   .pull-center {
     text-align: center;
     margin: 0 auto 15px auto;
@@ -88,16 +92,16 @@ table.table tr > td > table td {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
+  }
+}
 
-    // Loading circle behind gallery images
-    img {
-      width: 150px;
-      height: 100px;
-      background: url('/images/ajax-loader1.gif') no-repeat center center;
+// Loading circle behind gallery images
+img.loading-circle {
+  width: 150px;
+  height: 100px;
+  background: url('/images/ajax-loader.gif') no-repeat center center;
 
-      &.loaded {
-        background-image: none;
-      }
-    }
+  &.loaded {
+    background-image: none;
   }
 }

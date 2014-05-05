@@ -2,10 +2,13 @@
 'use strict';
 
 app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, AuthService, Slug) {
-    $scope.maxLoadedImages = 6;
+    $scope.maxLoadedImages = 5;
     $scope.galleries = [];
     $scope.activeGallery = {};
     $scope.formErrors = [];
+    $scope.recentUploads = [];
+    $scope.selectedFiles = [];
+    $scope.uploadErrors = [];
 
     Gallery.get(function (data) {
       $scope.galleries = data.galleries;
@@ -35,6 +38,17 @@ app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, A
      */
     $scope.editGallery = function (gallery) {
       $scope.activeGallery = gallery;
+    };
+
+    /**
+     * Add items to a gallery
+     * @param  {object} gallery
+     * @return {void}
+     */
+    $scope.addItemToGallery = function (gallery) {
+      $scope.activeGallery = gallery;
+      $scope.recentUploads = [];
+      $scope.uploadErrors = [];
     };
 
     /**
@@ -118,19 +132,27 @@ app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, A
     $scope.onFileSelect = function($files, galleryId) {
       var auth = AuthService.getApiCredentials(),
         success = function(data) {
+          $scope.selectedFiles.splice(0, 1);
+
           // Append the received item to the array of gallery items
           angular.forEach($scope.galleries, function (value, key) {
             if (value.id === galleryId) {
+              $scope.recentUploads.push(data.item);
               $scope.galleries[key].items.push(data.item);
               return;
             }
           });
         },
         error = function(data) {
-          console.error('err'); // ToDo
-          console.log(data);
+          $scope.selectedFiles.splice(0, 1);
+
+          angular.forEach(data.message, function (value) {
+            $scope.uploadErrors.push(value);
+          });
         };
 
+      $scope.selectedFiles = $files;
+      $scope.uploadErrors = [];
 
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];

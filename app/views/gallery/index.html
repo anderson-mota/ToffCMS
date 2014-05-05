@@ -19,27 +19,23 @@
           <i class="fa fa-camera bg-purple"></i>
           <div class="timeline-item">
             <a class="pull-right btn btn-danger btn-xs" ng-click="deleteGallery(gallery)"><i class="fa fa-minus"></i> Delete Gallery</a>
-            <a class="pull-right btn btn-success btn-xs" data-toggle="modal" data-target="#gallery-item-modal" ng-click="addItemToGallery($index)"><i class="fa fa-plus"></i> Add Item</a>
+            <a class="pull-right btn btn-success btn-xs" data-toggle="modal" data-target="#gallery-item-modal" ng-click="addItemToGallery(gallery)"><i class="fa fa-plus"></i> Add Item</a>
 
             <h3 class="timeline-header">
               <a data-toggle="modal" data-target="#gallery-modal" ng-click="editGallery(gallery)">{{ gallery.title }}</a>
             </h3>
 
             <div class="timeline-body">
-
-              <!-- ToDo -->
-              <input type="file" ng-file-select="onFileSelect($files, gallery.id)" multiple>
-
               <div class="row">
 
                 <!-- Display images -->
-                <div class="col-md-2 timeline-image"
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 timeline-image"
                   ng-repeat="item in gallery.items"
                   ng-if="displayAllImages || $index < maxLoadedImages">
 
                   <a target="_blank"
                     ng-href="http://api.historymakers.lv/image/{{ item.content }}">
-                    <img ng-src="http://api.historymakers.lv/image/small/{{ item.content }}" onload="this.className+=' loaded'" alt="{{ item.id }}" class="img-responsive" />
+                    <img ng-src="http://api.historymakers.lv/image/small/{{ item.content }}" onload="this.className+=' loaded'" alt="{{ item.id }}" class="img-responsive loading-circle" />
                   </a>
 
                   <a target="_blank" class="btn btn-danger btn-xs delete"
@@ -52,7 +48,7 @@
               </div>
 
               <!-- Nothing in this gallery: error -->
-              <alert type="danger" ng-if="!gallery.items.length">There are no items in this gallery. Why not <a href="#/gallery/{{ gallery.slug }}">add some</a>?</alert>
+              <alert type="danger" ng-if="!gallery.items.length">There are no items in this gallery. Why not <a data-toggle="modal" data-target="#gallery-item-modal" ng-click="addItemToGallery(gallery)">add some</a>?</alert>
 
               <!-- Load/unload all images -->
               <div class="pull-center" ng-show="gallery.items.length > maxLoadedImages">
@@ -136,3 +132,32 @@
   </form>
 
 </my-modal>
+
+<my-modal modalid="gallery-item-modal">
+
+  <my-modal-header>
+    <i class="fa fa-picture-o"></i>
+    Gallery item
+  </my-modal-header>
+
+  <div class="modal-body">
+
+    <alert ng-repeat="error in uploadErrors" type="danger" close="uploadErrors.splice($index, 1)">{{ error }}</alert>
+
+    <div class="form-group">
+      <input type="file" ng-file-select="onFileSelect($files, activeGallery.id)" multiple>
+    </div>
+
+    <!-- Placeholder images while the data is being uploaded -->
+    <img ng-repeat="item in selectedFiles" src="/images/blank.gif" class="margin loading-circle" />
+
+    <!-- Actual - uploaded - images -->
+    <img ng-repeat="item in recentUploads | orderBy:'id':true" ng-src="http://api.historymakers.lv/image/small/{{ item.content }}" onload="this.className+=' loaded'" alt="{{ item.id }}" class="margin loading-circle" />
+
+  </div>
+  <div class="modal-footer clearfix">
+    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+  </div>
+
+</my-modal>
+
