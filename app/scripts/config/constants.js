@@ -3,6 +3,8 @@
 
 app
 
+  .constant('BACKEND_URL', 'http://api.historymakers.lv/v1.0/')
+
   .constant('LANGUAGES', {
     'en': 'English',
     'lv': 'Latvian',

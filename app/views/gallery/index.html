@@ -1,6 +1,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-  <h1>Galleries</h1>
+  <h1>
+    Galleries
+    <a class="pull-right btn btn-success" data-toggle="modal" data-target="#gallery-modal" ng-click="newGallery()"><i class="fa fa-plus"></i> New Gallery</a>
+  </h1>
+
+
 </section>
 
 <!-- Main content -->
@@ -10,13 +15,14 @@
       <ul id="gallery" class="timeline">
 
         <!-- timeline item -->
-        <li ng-repeat="gallery in galleries">
+        <li ng-repeat="gallery in galleries | orderBy:'id':true">
           <i class="fa fa-camera bg-purple"></i>
           <div class="timeline-item">
-            <a href="#/gallery/{{ gallery.slug }}" class="pull-right btn btn-success btn-xs"><i class="fa fa-plus"></i> Add</a>
+            <a class="pull-right btn btn-danger btn-xs" ng-click="deleteGallery(gallery)"><i class="fa fa-minus"></i> Delete Gallery</a>
+            <a class="pull-right btn btn-success btn-xs" data-toggle="modal" data-target="#gallery-item-modal" ng-click="addItemToGallery($index)"><i class="fa fa-plus"></i> Add Item</a>
 
             <h3 class="timeline-header">
-              <a href="#/gallery/{{ gallery.slug }}">{{ gallery.title }}</a>
+              <a data-toggle="modal" data-target="#gallery-modal" ng-click="editGallery(gallery)">{{ gallery.title }}</a>
             </h3>
 
             <div class="timeline-body">
@@ -70,3 +76,63 @@
     </div>
   </div>
 </section>
+
+<my-modal modalid="gallery-modal">
+
+  <my-modal-header>
+    <i class="fa fa-picture-o"></i>
+    Gallery
+  </my-modal-header>
+
+  <form name="theForm" ng-submit="processForm()">
+    <input type="hidden" name="id" ng-model="activeGallery.id">
+
+    <div class="modal-body">
+
+      <div class="bs-callout bs-callout-danger" ng-if="formErrors">
+        <h4>Error!</h4>
+        <p ng-repeat="error in formErrors">{{ formErrors[$index] }}</p>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-error': theForm.title.$invalid && !theForm.title.$pristine }">
+        <div class="input-group">
+          <span class="input-group-addon">Title:</span>
+          <input
+            type="text"
+            name="title"
+            class="form-control"
+            placeholder="Gallery title"
+            ng-model="activeGallery.title"
+            ng-maxlength="100"
+            required>
+        </div>
+
+        <p ng-show="theForm.title.$dirty && theForm.title.$error.required" class="help-block">This field is required.</p>
+        <p ng-show="theForm.title.$error.maxlength" class="help-block">Title is too long.</p>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-error': theForm.slug.$invalid && !theForm.slug.$pristine }">
+        <div class="input-group">
+          <span class="input-group-addon">Slug:</span>
+          <input
+            type="text"
+            name="slug"
+            class="form-control"
+            placeholder="Gallery slug"
+            ng-model="activeGallery.slug"
+            ng-pattern="/^[a-z0-9]+(?:-[a-z0-9]+)*$/"
+            ng-maxlength="100">
+        </div>
+
+        <p ng-show="theForm.slug.$error.maxlength" class="help-block">Slug is too long.</p>
+        <p ng-show="theForm.slug.$error.pattern" class="help-block">Slug contains invalid characters OR starts/ends with `-`.</p>
+      </div>
+
+    </div>
+    <div class="modal-footer clearfix">
+      <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+      <button type="submit" class="btn btn-primary pull-left" ng-disabled="theForm.$invalid"><i class="fa fa-check"></i> Save</button>
+    </div>
+  </form>
+
+</my-modal>
