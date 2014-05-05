@@ -9,6 +9,7 @@ app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, A
     $scope.recentUploads = [];
     $scope.selectedFiles = [];
     $scope.uploadErrors = [];
+    $scope.dragHappened = false;
 
     Gallery.get(function (data) {
       $scope.galleries = data.galleries;
@@ -124,6 +125,22 @@ app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, A
     };
 
     /**
+     * Save the order of links
+     * @param {object} gallery
+     * @return {void}
+     */
+    $scope.saveOrder = function (gallery) {
+      var order = prepareOrder(gallery.items);
+
+      $scope.dragHappened = false;
+
+      // Update the order
+      GalleryItem.updateOrder({data: order}, function () {
+
+      });
+    };
+
+    /**
      * Upload a file
      * @param  {array} $files
      * @param  {integer} galleryId
@@ -167,6 +184,16 @@ app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, A
       }
     };
 
+    /**
+     * Update the save button
+     * @type {Object}
+     */
+    $scope.treeOptions = {
+      dropped: function () {
+        $scope.dragHappened = true;
+      }
+    };
+
     var getGalleryIndexById = function (id, callback) {
       angular.forEach($scope.galleries, function (value, key) {
         if (value.id === id) {
@@ -174,6 +201,21 @@ app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, A
           return false;
         }
       });
+    };
+
+    /**
+     * Prepare the order that will be sent to the backend
+     * @param  {array} data
+     * @return {array}
+     */
+    var prepareOrder = function (data) {
+      var order = [];
+
+      angular.forEach(data, function (value) {
+        order.push({ id: value.id });
+      });
+
+      return order;
     };
 
   });

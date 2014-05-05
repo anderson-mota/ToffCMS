@@ -20,24 +20,30 @@
           <div class="timeline-item">
             <a class="pull-right btn btn-danger btn-xs" ng-click="deleteGallery(gallery)"><i class="fa fa-minus"></i> Delete Gallery</a>
             <a class="pull-right btn btn-success btn-xs" data-toggle="modal" data-target="#gallery-item-modal" ng-click="addItemToGallery(gallery)"><i class="fa fa-plus"></i> Add Item</a>
+            <a class="pull-right btn btn-success btn-xs" ng-click="saveOrder(gallery)" ng-disabled="!dragHappened"><i class="fa fa-save"></i> Save the order</a>
 
             <h3 class="timeline-header">
               <a data-toggle="modal" data-target="#gallery-modal" ng-click="editGallery(gallery)">{{ gallery.title }}</a>
             </h3>
 
-            <div class="timeline-body">
-              <div class="row">
+            <div class="timeline-body" ui-tree="treeOptions">
+              <div class="row" ui-tree-nodes ng-model="gallery.items">
 
                 <!-- Display images -->
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 timeline-image"
                   ng-repeat="item in gallery.items"
-                  ng-if="displayAllImages || $index < maxLoadedImages">
+                  ng-if="displayAllImages || $index < maxLoadedImages" ui-tree-node>
 
+                  <!-- Drag handle -->
+                  <span class="btn btn-warning btn-xs move" ui-tree-handle>Drag&amp;drop</span>
+
+                  <!-- The image -->
                   <a target="_blank"
                     ng-href="http://api.historymakers.lv/image/{{ item.content }}">
                     <img ng-src="http://api.historymakers.lv/image/small/{{ item.content }}" onload="this.className+=' loaded'" alt="{{ item.id }}" class="img-responsive loading-circle" />
                   </a>
 
+                  <!-- Delete button -->
                   <a target="_blank" class="btn btn-danger btn-xs delete"
                     ng-click="deleteItem(gallery.id, $index)">
                     Delete
