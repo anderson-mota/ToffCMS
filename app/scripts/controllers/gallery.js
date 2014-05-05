@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('GalleryCtrl', function ($scope, $upload, Gallery, AuthService) {
+app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, AuthService) {
     $scope.maxLoadedImages = 6;
     $scope.galleries = [];
 
@@ -10,50 +10,59 @@ app.controller('GalleryCtrl', function ($scope, $upload, Gallery, AuthService) {
 
     /**
      * Search & destroy the gallery item
-     * @param  {integer} gallery_id
+     * @param  {integer} galleryId
      * @param  {integer} $index
      * @return {void}
      */
-    $scope.deleteItem = function (gallery_id, $index) {
+    $scope.deleteItem = function (galleryId, $index) {
       angular.forEach($scope.galleries, function (row) {
-        if (row.id === gallery_id) {
+        if (row.id === galleryId) {
+          var item = row.items[$index];
+
+          // Delete client side
           row.items.splice($index, 1);
+
+          // Delete server side
+          GalleryItem.delete({id: item.id});
+
+          return false;
         }
       });
-
-      // ToDo: delete server side
     };
 
     /**
      * Upload a file
      * @param  {array} $files
-     * @param  {integer} gallery_id
+     * @param  {integer} galleryId
      * @return {void}
      */
-    $scope.onFileSelect = function($files, gallery_id) {
-      for (var i = 0; i < $files.length; i++) {
-        var file = $files[i],
-            auth = AuthService.getApiCredentials();
-
-        $scope.upload = $upload.upload({
-          url: 'http://api.historymakers.lv/v1.0/gallery/item/upload?user_id='+ auth.user_id +'&api_key='+ auth.api_key,
-          data: {id: gallery_id},
-          file: file,
-        }).success(function(data, status, headers, config) {
-
+    $scope.onFileSelect = function($files, galleryId) {
+      var auth = AuthService.getApiCredentials(),
+        success = function(data) {
           // Append the received item to the array of gallery items
           angular.forEach($scope.galleries, function (value, key) {
-            if (value.id === gallery_id) {
+            if (value.id === galleryId) {
               $scope.galleries[key].items.push(data.item);
               return;
             }
           });
-
-        })
-        .error(function (data) {
-          console.error('err');
+        },
+        error = function(data) {
+          console.error('err'); // ToDo
           console.log(data);
-        });
+        };
+
+
+      for (var i = 0; i < $files.length; i++) {
+        var file = $files[i];
+
+        $scope.upload = $upload.upload({
+          url: 'http://api.historymakers.lv/v1.0/gallery/item/upload?user_id='+ auth.user_id +'&api_key='+ auth.api_key, // jshint ignore:line
+          data: {id: galleryId},
+          file: file,
+        })
+        .success(success)
+        .error(error);
       }
     };
 
