@@ -67,7 +67,7 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          open: 'http://admin.historymakers.lv:9000',
+          open: 'http://127.0.0.1:9000',
           base: [
             '.tmp',
             '<%= yeoman.app %>'
