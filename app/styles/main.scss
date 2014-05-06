@@ -2,6 +2,13 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
 
+.skin-black .logo {
+  &:hover {
+    text-decoration: none;
+    background-color: #3b3b3b;
+  }
+}
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
