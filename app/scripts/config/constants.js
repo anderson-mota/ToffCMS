@@ -1,4 +1,3 @@
-/* global app:true */
 'use strict';
 
 app

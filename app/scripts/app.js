@@ -9,7 +9,9 @@ var app = angular.module('adminApp', [
   'slugifier',
   'ui.tree',
   'ui.bootstrap',
-  'angularFileUpload'
+  'angularFileUpload',
+  'angulartics',
+  'angulartics.google.analytics'
 ])
   .config(function ($routeProvider, USER_ROLES) {
     $routeProvider
