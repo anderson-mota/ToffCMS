@@ -1,7 +1,7 @@
 /* global confirm:true */
 'use strict';
 
-app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, AuthService, Slug) {
+app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, AuthService, Slug, BACKEND_URL) {
     $scope.maxLoadedImages = 5;
     $scope.galleries = [];
     $scope.activeGallery = {};
@@ -175,7 +175,7 @@ app.controller('GalleryCtrl', function ($scope, $upload, Gallery, GalleryItem, A
         var file = $files[i];
 
         $scope.upload = $upload.upload({
-          url: 'http://api.historymakers.lv/v1.0/gallery/item/upload?user_id='+ auth.user_id +'&api_key='+ auth.api_key, // jshint ignore:line
+          url: BACKEND_URL + 'gallery/item/upload?user_id='+ auth.user_id +'&api_key='+ auth.api_key, // jshint ignore:line
           data: {id: galleryId},
           file: file,
         })

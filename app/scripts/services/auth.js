@@ -1,11 +1,11 @@
 /* global app:true */
 'use strict';
 
-app.factory('AuthService', function ($http, $location, $cookies, Session, USER_ROLES) {
+app.factory('AuthService', function ($http, $location, $cookies, Session, USER_ROLES, BACKEND_URL) {
     return {
       login: function (credentials) {
         return $http
-          .post('http://api.historymakers.lv/v1.0/login', credentials)
+          .post(BACKEND_URL + 'login', credentials)
           .then(function (res) {
 
             if (res.data.error === true) {

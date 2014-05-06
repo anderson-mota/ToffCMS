@@ -1,12 +1,12 @@
 'use strict';
 
-app.service('User', function User ($rootScope, $resource, AuthService, AUTH_EVENTS) {
+app.service('User', function User ($rootScope, $resource, AuthService, AUTH_EVENTS, BACKEND_URL) {
 
     var params = {
         'user_id': '@userId',
         'api_key': '@apiKey'
       },
-      resource = $resource('http://api.historymakers.lv/v1.0/user/:id', params, {
+      resource = $resource(BACKEND_URL + 'user/:id', params, {
         update: { method: 'PUT' },
         create: { method: 'POST' }
       });

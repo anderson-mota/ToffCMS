@@ -1,10 +1,10 @@
 'use strict';
 
-app.service('Page', function Page($resource, AuthService) {
+app.service('Page', function Page($resource, AuthService, BACKEND_URL) {
     var params = AuthService.getApiCredentials();
     params.id = '@id';
 
-    return $resource('http://api.historymakers.lv/v1.0/page/:id', params, {
+    return $resource(BACKEND_URL + 'page/:id', params, {
         update: { method: 'PUT' },
         create: { method: 'POST' }
       });
