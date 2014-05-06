@@ -56,6 +56,12 @@ var app = angular.module('adminApp', [
     // Revalidate auth on route change
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
+      // Do not check the roles for redirections
+      // We will do this once we're at the redirected destination
+      if (next.redirectTo) {
+        return;
+      }
+
       var authorizedRoles = next.data.authorizedRoles;
 
       if (AuthService.isAuthorized(authorizedRoles) === false) {
