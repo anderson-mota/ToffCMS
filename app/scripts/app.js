@@ -21,6 +21,7 @@ var app = angular.module('adminApp', [
       .when('/pages',                            {templateUrl: 'views/pages/index.html',    controller: 'PageCtrl',           data: { authorizedRoles: [USER_ROLES.admin] }})
       .when('/gallery',                          {templateUrl: 'views/gallery/index.html',  controller: 'GalleryCtrl',        data: { authorizedRoles: [USER_ROLES.admin] }})
       .when('/navigation',                       {templateUrl: 'views/navigation/index.html', controller: 'NavigationCtrl',   data: { authorizedRoles: [USER_ROLES.admin] }})
+      .when('/settings',                         {templateUrl: 'views/settings/index.html', controller: 'SettingsCtrl',   data: { authorizedRoles: [USER_ROLES.admin] }})
       .otherwise({
         redirectTo: '/',
         data: { authorizedRoles: USER_ROLES.admin }

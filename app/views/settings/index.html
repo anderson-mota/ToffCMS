@@ -1,0 +1,46 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Frontend Settings</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="box box-solid">
+    <div class="box-body">
+
+      <form class="form-horizontal" role="form">
+
+        <div class="row" ng-repeat="setting in settings">
+          <div class="col-md-7 form-group">
+            <label ng-for="{{ setting.key }}" class="col-sm-4 control-label">{{ setting.name }}</label>
+
+            <!-- Input field -->
+            <div class="col-sm-8" ng-if="setting.available_values.length === 0">
+              <input type="text" class="form-control" ng-id="{{ setting.key }}" ng-model="setting.value" />
+            </div>
+
+            <!-- Dropdown -->
+            <div class="col-sm-8" ng-if="setting.available_values.length > 0">
+              <select class="form-control"
+                ng-options="languages[key] for key in setting.available_values"
+                ng-model="setting.value"></select>
+            </div>
+
+          </div>
+
+          <div class="col-md-5">
+            <p class="help-block">{{ setting.description }}</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Sign in</button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</section><!-- /.content -->
