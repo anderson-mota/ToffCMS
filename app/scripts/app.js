@@ -22,25 +22,7 @@ var app = angular.module('adminApp', [
       });
   })
 
-  .run(function ($rootScope, $route, $cookieStore, AUTH_EVENTS, AuthService, User, LANGUAGES) {
-
-    // Global constants
-    $rootScope.LANGUAGES = LANGUAGES;
-
-    // Get the layout of a view
-    $rootScope.getLayout = function () {
-      var layout = 'default.html';
-
-      if ($route.current === undefined) {
-        return;
-      }
-
-      if ($route.current.layout) {
-        layout = $route.current.layout;
-      }
-
-      return 'views/layouts/' + layout;
-    };
+  .run(function ($rootScope, AUTH_EVENTS, AuthService, User) {
 
     // Check if the user is logged in
     if (AuthService.loadFromCookies()) {
@@ -72,28 +54,5 @@ var app = angular.module('adminApp', [
 
       }
     });
-
-    $rootScope.do = function ($event) {
-      $event.preventDefault();
-    };
-
-    /**
-     * Hide the sidebar - on/off canvas toggle
-     */
-    $rootScope.offCanvas = function (event) {
-      event.preventDefault();
-
-      // If window is small enough, enable sidebar push menu
-      if ($(window).width() <= 992) {
-        $('.row-offcanvas').toggleClass('active');
-        $('.left-side').removeClass('collapse-left');
-        $('.right-side').removeClass('strech');
-        $('.row-offcanvas').toggleClass('relative');
-      } else {
-        // Else, enable content streching
-        $('.left-side').toggleClass('collapse-left');
-        $('.right-side').toggleClass('strech');
-      }
-    };
 
   });
