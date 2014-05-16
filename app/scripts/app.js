@@ -11,7 +11,8 @@ var app = angular.module('adminApp', [
   'ui.bootstrap',
   'angularFileUpload',
   'angulartics',
-  'angulartics.google.analytics'
+  'angulartics.google.analytics',
+  'ui.gravatar'
 ])
   .config(function ($routeProvider, USER_ROLES) {
     $routeProvider
