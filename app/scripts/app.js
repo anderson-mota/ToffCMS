@@ -16,13 +16,13 @@ var app = angular.module('adminApp', [
 ])
   .config(function ($routeProvider, USER_ROLES) {
     $routeProvider
-      .when('/',                                 {templateUrl: 'views/dashboard.html',      controller: 'DashboardCtrl',      data: { authorizedRoles: [USER_ROLES.admin] }})
-      .when('/login',                            {templateUrl: 'views/login.html',          controller: 'LoginCtrl',          data: { authorizedRoles: USER_ROLES.all }, layout: 'login.html' })
-      .when('/logout',                           {templateUrl: 'views/login.html',          controller: 'LogoutCtrl',         data: { authorizedRoles: [USER_ROLES.admin] }})
-      .when('/pages',                            {templateUrl: 'views/pages/index.html',    controller: 'PageCtrl',           data: { authorizedRoles: [USER_ROLES.admin] }})
-      .when('/gallery',                          {templateUrl: 'views/gallery/index.html',  controller: 'GalleryCtrl',        data: { authorizedRoles: [USER_ROLES.admin] }})
-      .when('/navigation',                       {templateUrl: 'views/navigation/index.html', controller: 'NavigationCtrl',   data: { authorizedRoles: [USER_ROLES.admin] }})
-      .when('/settings',                         {templateUrl: 'views/settings/index.html', controller: 'SettingsCtrl',   data: { authorizedRoles: [USER_ROLES.admin] }})
+      .when('/', {
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardCtrl',
+        data: {
+          authorizedRoles: [USER_ROLES.admin]
+        }
+      })
       .otherwise({
         redirectTo: '/',
         data: { authorizedRoles: USER_ROLES.admin }
