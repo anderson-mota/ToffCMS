@@ -16,13 +16,6 @@ var app = angular.module('adminApp', [
 ])
   .config(function ($routeProvider, USER_ROLES) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/dashboard.html',
-        controller: 'DashboardCtrl',
-        data: {
-          authorizedRoles: [USER_ROLES.admin]
-        }
-      })
       .otherwise({
         redirectTo: '/',
         data: { authorizedRoles: USER_ROLES.admin }
