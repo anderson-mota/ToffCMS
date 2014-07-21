@@ -2,7 +2,7 @@
 
 app
 
-  .constant('BACKEND_URL', 'http://api.historymakers.lv/v1.0/')
+  .constant('BACKEND_URL', 'http://lqdicms.app/v1.0/')
 
   .constant('LANGUAGES', {
     'en': 'English',
