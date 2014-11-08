@@ -77,6 +77,7 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
      * @return {void}
      */
     $scope.processForm = function () {
+      this.instanceForm.$setPristine();
 
       // Error processing
       var error = function (data) {
