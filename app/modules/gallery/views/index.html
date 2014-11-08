@@ -141,24 +141,62 @@
 
 <my-modal modalid="gallery-item-modal">
 
-  <my-modal-header>
+  <!-- <my-modal-header>
     <i class="fa fa-picture-o"></i>
     Gallery item
-  </my-modal-header>
+  </my-modal-header> -->
 
-  <div class="modal-body">
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs pull-right">
+        <li class="active"><a href="#image" ng-click="do($event)" data-toggle="tab">Image</a></li>
+        <li><a href="#video" ng-click="do($event)" data-toggle="tab">Video</a></li>
+        <li class="pull-left header modal-title">
+          <i class="fa fa-picture-o"></i>
+          <span>Gallery Item</span>
+        </li>
+    </ul>
+  </div>
 
-    <alert ng-repeat="error in uploadErrors" type="danger" close="uploadErrors.splice($index, 1)">{{ error }}</alert>
+  <div class="modal-body tab-content">
 
-    <div class="form-group">
-      <input type="file" ng-file-select="onFileSelect($files, activeGallery.id)" multiple>
+    <!-- Image tab -->
+    <div class="tab-pane active" id="image">
+      <alert ng-repeat="error in uploadErrors" type="danger" close="uploadErrors.splice($index, 1)">{{ error }}</alert>
+
+      <div class="form-group">
+        <input type="file" ng-file-select="onFileSelect($files, activeGallery.id)" multiple>
+      </div>
+
+      <!-- Placeholder images while the data is being uploaded -->
+      <img ng-repeat="item in selectedFiles" src="/images/blank.gif" class="margin loading-circle" />
+
+      <!-- Actual - uploaded - images -->
+      <img ng-repeat="item in recentUploads | orderBy:'id':true" ng-src="http://api.historymakers.lv/image/small/{{ item.content }}" onload="this.className+=' loaded'" alt="{{ item.id }}" class="margin loading-circle" />
     </div>
 
-    <!-- Placeholder images while the data is being uploaded -->
-    <img ng-repeat="item in selectedFiles" src="/images/blank.gif" class="margin loading-circle" />
+    <!-- Video tab -->
+    <div class="tab-pane" id="video">
 
-    <!-- Actual - uploaded - images -->
-    <img ng-repeat="item in recentUploads | orderBy:'id':true" ng-src="http://api.historymakers.lv/image/small/{{ item.content }}" onload="this.className+=' loaded'" alt="{{ item.id }}" class="margin loading-circle" />
+      <form name="videoForm" ng-submit="processForm()">
+        <div class="form-group" ng-class="{ 'has-error': videoForm.videoUrl.$invalid && !videoForm.videoUrl.$pristine }">
+          <div class="input-group">
+            <span class="input-group-addon">Video URL:</span>
+            <input
+              type="text"
+              name="videoUrl"
+              class="form-control"
+              placeholder="http://"
+              ng-model="videoUrl"
+              ng-maxlength="100"
+              required>
+          </div>
+
+          <p ng-show="videoForm.videoUrl.$dirty && videoForm.videoUrl.$error.required" class="help-block">This field is required.</p>
+          <p ng-show="videoForm.videoUrl.$error.maxlength" class="help-block">videoUrl is too long.</p>
+        </div>
+      </form>
+
+    </div>
 
   </div>
   <div class="modal-footer clearfix">
