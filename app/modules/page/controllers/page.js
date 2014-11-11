@@ -40,8 +40,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
      */
     $scope.deletePage = function ($index) {
 
-      if (confirm('Are you sure you want to delete this page?') === false)
-      {
+      if (confirm('Are you sure you want to delete this page?') === false) {
         return;
       }
 
@@ -56,6 +55,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
      * @return {void}
      */
     $scope.processForm = function () {
+      this.pageForm.$setPristine();
 
       // Error processing
       var error = function (data) {

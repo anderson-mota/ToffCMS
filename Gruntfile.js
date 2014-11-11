@@ -28,7 +28,10 @@ module.exports = function (grunt) {
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: [
+          '<%= yeoman.app %>/scripts/{,*/}*.js',
+          '<%= yeoman.app %>/modules/{,*/}*.js'
+        ],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: true
@@ -358,6 +361,19 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
+    },
+
+    'ftp-deploy': {
+      build: {
+        auth: {
+          host: 'historymakers.lv',
+          port: 21,
+          authKey: 'historymakers'
+        },
+        src: 'dist',
+        dest: '/',
+        exclusions: []
+      }
     }
   });
 
@@ -404,7 +420,8 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'ftp-deploy'
   ]);
 
   grunt.registerTask('default', [
