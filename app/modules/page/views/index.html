@@ -65,7 +65,7 @@
                     ng-click="editPage(page)">
                     <!-- <td class="small-col"><input type="checkbox" name="action" ng-value="page.id" /></td> -->
                     <td class="subject">{{ page.title }}</td>
-                    <td class="small-col flag">
+                    <td class="small-col flag" ng-if="hasInternationalization === 'yes'">
                       <i class="flag-icon" ng-class="FLAGS[page.language] || page.language"></i>
                     </td>
                     <td class="small-col">
@@ -114,7 +114,7 @@
 
     <div class="modal-body tab-content">
 
-      <div class="bs-callout bs-callout-danger" ng-if="formErrors">
+      <div class="bs-callout bs-callout-danger" ng-if="formErrors.length">
         <h4>Error!</h4>
 
         <p ng-repeat="error in formErrors">{{ formErrors[$index] }}</p>
@@ -194,16 +194,16 @@
 
 
       <div class="tab-pane" id="textarea">
-        <div class="form-group" ng-class="{ 'has-error': pageForm.body.$invalid && !pageForm.body.$pristine }">
+        <div class="form-group" ng-class="{ 'has-error': pageForm.content.$invalid && !pageForm.content.$pristine }">
           <textarea
-            name="body"
+            name="content"
             placeholder="Content (markdown format)"
             class="form-control textarea"
             rows="12"
-            ng-model="activePage.body"
+            ng-model="activePage.content"
             required></textarea>
         </div>
-        <p ng-show="pageForm.body.$dirty && pageForm.body.$error.required" class="help-block">This field is
+        <p ng-show="pageForm.content.$dirty && pageForm.content.$error.required" class="help-block">This field is
           required.</p>
 
         <p class="help-block">Don't know what's markdown or how to use it? <a

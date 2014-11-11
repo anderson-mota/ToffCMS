@@ -58,8 +58,8 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
       this.pageForm.$setPristine();
 
       // Error processing
-      var error = function (data) {
-        $scope.formErrors = data.data.message;
+      var error = function (request) {
+        $scope.formErrors.push(request.data.error.message);
       };
 
       if ($scope.activePage.id) {
