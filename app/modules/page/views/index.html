@@ -29,7 +29,7 @@
                 </ul>
               </div>
 
-              <div style="margin-top: 15px;">
+              <div style="margin-top: 15px;" ng-if="hasInternationalization === 'yes'">
                 <ul class="nav nav-pills nav-stacked">
                   <li class="header">Language</li>
                   <li ng-class="activeLanguage === 'all' ? 'active' : ''">
@@ -173,7 +173,7 @@
             </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-6" ng-if="hasInternationalization === 'yes'">
             <div class="form-group"
                  ng-class="{ 'has-error': pageForm.language.$invalid && !pageForm.language.$pristine }">
               <label>Language:</label>

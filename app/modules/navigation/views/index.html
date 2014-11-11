@@ -19,7 +19,7 @@
                 </a>
 
                 <!-- Filters -->
-                <div style="margin-top: 15px;">
+                <div style="margin-top: 15px;" ng-if="hasInternationalization === 'yes'">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="header">Language</li>
                         <li
@@ -189,7 +189,7 @@
       <div class="row">
 
         <!-- Language -->
-        <div class="col-md-6">
+        <div class="col-md-6" ng-if="hasInternationalization === 'yes'">
           <div class="form-group" ng-class="{ 'has-error': instanceForm.language.$invalid && !instanceForm.language.$pristine }">
             <label>Language:</label>
             <select

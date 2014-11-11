@@ -27,6 +27,11 @@ app.controller('SettingsCtrl', function ($scope, Settings) {
     };
 
     Settings.get(function (data) {
+
+      for (var key in data.settings) {
+        data.settings[key].available_values = $.parseJSON(data.settings[key].available_values);
+      }
+
       $scope.settings = data.settings;
     });
 

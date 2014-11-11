@@ -1,10 +1,14 @@
 'use strict';
 
-app.controller('MainCtrl', function ($scope, $route, LANGUAGES, FLAGS) {
+app.controller('MainCtrl', function ($scope, $route, LANGUAGES, FLAGS, Settings) {
 
     // Global constants
     $scope.LANGUAGES = LANGUAGES;
     $scope.FLAGS = FLAGS;
+
+    Settings.show({key: 'internationalization'}, function (data) {
+      $scope.hasInternationalization = data.settings.value;
+    });
 
     // Get the layout of a view
     $scope.getLayout = function () {
