@@ -5,9 +5,13 @@ app
   .constant('BACKEND_URL', 'http://lqdicms.app/v1.0/')
 
   .constant('LANGUAGES', {
-    'en': 'English',
-    'lv': 'Latvian',
-    'ru': 'Russian'
+      'pt': 'Português',
+      'en': 'English'
+  })
+
+  .constant('FLAGS', {
+    'pt': 'br',
+    'en': 'us'
   })
 
   .constant('AUTH_EVENTS', {

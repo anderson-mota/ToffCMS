@@ -1,9 +1,10 @@
 'use strict';
 
-app.controller('MainCtrl', function ($scope, $route, LANGUAGES) {
+app.controller('MainCtrl', function ($scope, $route, LANGUAGES, FLAGS) {
 
     // Global constants
     $scope.LANGUAGES = LANGUAGES;
+    $scope.FLAGS = FLAGS;
 
     // Get the layout of a view
     $scope.getLayout = function () {

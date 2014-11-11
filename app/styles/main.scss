@@ -1,6 +1,6 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
-@import 'sass-bootstrap/lib/bootstrap';
+@import '../bower_components/sass-bootstrap/lib/bootstrap';
 
 .skin-black .logo {
   &:hover {
@@ -88,7 +88,6 @@ table.table tr > td > table td {
     margin: 0 auto 15px auto;
     border-bottom: 1px solid #dfdfdf;
     max-height: 18px;
-    margin-bottom: 15px;
   }
 }
 
@@ -129,7 +128,7 @@ table.table tr > td > table td {
 img.loading-circle {
   width: 150px;
   height: 100px;
-  background: url('/images/ajax-loader.gif') no-repeat center center;
+  background: url('../images/ajax-loader.gif') no-repeat center center;
 
   &.loaded {
     background-image: none;

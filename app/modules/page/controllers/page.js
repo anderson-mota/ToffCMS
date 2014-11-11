@@ -18,7 +18,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
       $scope.formErrors = [];
       $scope.activePage = {
         status: 'draft',
-        language: 'en',
+        language: 'pt',
         updateSlug: true
       };
     };
@@ -35,7 +35,7 @@ app.controller('PageCtrl', function ($scope, $routeParams, Page, Slug) {
 
     /**
      * Delete a page
-     * @param  {integer} $index
+     * @param  {int} $index
      * @return {void}
      */
     $scope.deletePage = function ($index) {

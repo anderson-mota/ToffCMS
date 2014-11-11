@@ -7,41 +7,46 @@
           <div class="row">
 
             <div class="col-md-3 col-sm-4">
-                <div class="box-header">
-                    <i class="fa fa-edit"></i>
-                    <h3 class="box-title">PAGES</h3>
-                </div>
-                <!-- compose message btn -->
-                <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#page-crud-modal" ng-click="newPage()"><i class="fa fa-pencil"></i> New page</a>
-                <!-- Navigation - folders-->
+              <div class="box-header">
+                <i class="fa fa-edit"></i>
 
-                <div style="margin-top: 15px;">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="header">Status</li>
-                        <li ng-class="activeStatus=='all' ? 'active' : ''"><a ng-click="activeStatus = 'all'"><i class="fa fa-inbox"></i> All ({{ pages.length }})</a></li>
-                        <li ng-class="activeStatus=='live' ? 'active' : ''"><a ng-click="activeStatus = 'live'"><i class="fa fa-check"></i> Live</a></li>
-                        <li ng-class="activeStatus=='draft' ? 'active' : ''"><a ng-click="activeStatus = 'draft'"><i class="fa fa-pencil-square-o"></i> Drafts</a></li>
-                    </ul>
-                </div>
+                <h3 class="box-title">PAGES</h3>
+              </div>
+              <!-- compose message btn -->
+              <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#page-crud-modal"
+                 ng-click="newPage()"><i class="fa fa-pencil"></i> New page</a>
+              <!-- Navigation - folders-->
 
-                <div style="margin-top: 15px;">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="header">Language</li>
-                        <li ng-class="activeLanguage === 'all' ? 'active' : ''">
-                          <a ng-click="activeLanguage = 'all'">
-                            All
-                          </a>
-                        </li>
-                        <li
-                          ng-class="activeLanguage == key ? 'active' : ''"
-                          ng-repeat="(key, name) in LANGUAGES">
-                          <a ng-click="$parent.activeLanguage = key">
-                            <i class="flag-icon" ng-class="key === 'en' ? 'us' : key"></i>
-                            {{ name }}
-                          </a>
-                        </li>
-                    </ul>
-                </div>
+              <div style="margin-top: 15px;">
+                <ul class="nav nav-pills nav-stacked">
+                  <li class="header">Status</li>
+                  <li ng-class="activeStatus=='all' ? 'active' : ''"><a ng-click="activeStatus = 'all'"><i
+                    class="fa fa-inbox"></i> All ({{ pages.length }})</a></li>
+                  <li ng-class="activeStatus=='live' ? 'active' : ''"><a ng-click="activeStatus = 'live'"><i
+                    class="fa fa-check"></i> Live</a></li>
+                  <li ng-class="activeStatus=='draft' ? 'active' : ''"><a ng-click="activeStatus = 'draft'"><i
+                    class="fa fa-pencil-square-o"></i> Drafts</a></li>
+                </ul>
+              </div>
+
+              <div style="margin-top: 15px;">
+                <ul class="nav nav-pills nav-stacked">
+                  <li class="header">Language</li>
+                  <li ng-class="activeLanguage === 'all' ? 'active' : ''">
+                    <a ng-click="activeLanguage = 'all'">
+                      All
+                    </a>
+                  </li>
+                  <li
+                    ng-class="activeLanguage == key ? 'active' : ''"
+                    ng-repeat="(key, name) in LANGUAGES">
+                    <a ng-click="$parent.activeLanguage = key">
+                      <i class="flag-icon" ng-class="FLAGS[key] || key"></i>
+                      {{ name }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
 
             </div>
 
@@ -53,31 +58,33 @@
                 <table class="table table-mailbox table-hover">
                   <tbody>
 
-                    <tr
-                      class="clickable"
-                      ng-repeat="page in pages"
-                      ng-show="(activeLanguage === 'all' || activeLanguage === page.language) && (activeStatus === 'all' || activeStatus === page.status)"
-                      ng-click="editPage(page)">
-                      <!-- <td class="small-col"><input type="checkbox" name="action" ng-value="page.id" /></td> -->
-                      <td class="subject">{{ page.title }}</td>
-                      <td class="small-col flag">
-                        <i class="flag-icon" ng-class="page.language === 'en' ? 'us' : page.language"></i>
-                      </td>
-                      <td class="small-col">
-                        <span class="label" ng-class="{live: 'label-success', draft: 'label-warning'}[page.status]">{{ page.status }}</span>
-                      </td>
-                      <td class="small-col">
-                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#page-crud-modal"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-danger btn-xs" ng-click="deletePage($index)"><i class="fa fa-trash-o"></i></button>
-                      </td>
-                    </tr>
+                  <tr
+                    class="clickable"
+                    ng-repeat="page in pages"
+                    ng-show="(activeLanguage === 'all' || activeLanguage === page.language) && (activeStatus === 'all' || activeStatus === page.status)"
+                    ng-click="editPage(page)">
+                    <!-- <td class="small-col"><input type="checkbox" name="action" ng-value="page.id" /></td> -->
+                    <td class="subject">{{ page.title }}</td>
+                    <td class="small-col flag">
+                      <i class="flag-icon" ng-class="FLAGS[page.language] || page.language"></i>
+                    </td>
+                    <td class="small-col">
+                      <span class="label" ng-class="{live: 'label-success', draft: 'label-warning'}[page.status]">{{ page.status }}</span>
+                    </td>
+                    <td class="small-col">
+                      <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#page-crud-modal"><i
+                        class="fa fa-pencil"></i></button>
+                      <button class="btn btn-danger btn-xs" ng-click="deletePage($index)"><i class="fa fa-trash-o"></i>
+                      </button>
+                    </td>
+                  </tr>
 
                   </tbody>
                 </table>
               </div>
 
             </div>
-           </div>
+          </div>
         </div>
       </div>
     </div>
@@ -91,13 +98,13 @@
 
   <div class="nav-tabs-custom">
     <ul class="nav nav-tabs pull-right">
-        <li><a href="#textarea" ng-click="$root.do($event)" data-toggle="tab">Content</a></li>
-        <li class="active"><a href="#basic" ng-click="$root.do($event)" data-toggle="tab">Basic information</a></li>
-        <li class="pull-left header modal-title">
-          <i class="fa fa-edit"></i>
-          <span ng-if="!activePage.id">Create a new page</span>
-          <span ng-if="activePage.id">Edit a page</span>
-        </li>
+      <li><a href="#textarea" ng-click="$root.do($event)" data-toggle="tab">Content</a></li>
+      <li class="active"><a href="#basic" ng-click="$root.do($event)" data-toggle="tab">Basic information</a></li>
+      <li class="pull-left header modal-title">
+        <i class="fa fa-edit"></i>
+        <span ng-if="!activePage.id">Create a new page</span>
+        <span ng-if="activePage.id">Edit a page</span>
+      </li>
     </ul>
   </div>
 
@@ -109,6 +116,7 @@
 
       <div class="bs-callout bs-callout-danger" ng-if="formErrors">
         <h4>Error!</h4>
+
         <p ng-repeat="error in formErrors">{{ formErrors[$index] }}</p>
       </div>
 
@@ -126,7 +134,9 @@
               required>
           </div>
 
-          <p ng-show="pageForm.title.$dirty && pageForm.title.$error.required" class="help-block">This field is required.</p>
+          <p ng-show="pageForm.title.$dirty && pageForm.title.$error.required" class="help-block">This field is
+            required.</p>
+
           <p ng-show="pageForm.title.$error.maxlength" class="help-block">Title is too long.</p>
         </div>
 
@@ -144,7 +154,9 @@
           </div>
 
           <p ng-show="pageForm.slug.$error.maxlength" class="help-block">Slug is too long.</p>
-          <p ng-show="pageForm.slug.$error.pattern" class="help-block">Slug contains invalid characters OR starts/ends with `-`.</p>
+
+          <p ng-show="pageForm.slug.$error.pattern" class="help-block">Slug contains invalid characters OR starts/ends
+            with `-`.</p>
         </div>
 
         <div class="row">
@@ -156,12 +168,14 @@
                 <option value="draft">Draft</option>
               </select>
 
-              <p ng-show="pageForm.status.$dirty && pageForm.status.$error.required" class="help-block">This field is required.</p>
+              <p ng-show="pageForm.status.$dirty && pageForm.status.$error.required" class="help-block">This field is
+                required.</p>
             </div>
           </div>
 
           <div class="col-md-6">
-            <div class="form-group" ng-class="{ 'has-error': pageForm.language.$invalid && !pageForm.language.$pristine }">
+            <div class="form-group"
+                 ng-class="{ 'has-error': pageForm.language.$invalid && !pageForm.language.$pristine }">
               <label>Language:</label>
               <select
                 name="language"
@@ -171,7 +185,8 @@
                 required>
               </select>
 
-              <p ng-show="pageForm.language.$dirty && pageForm.language.$error.required" class="help-block">This field is required.</p>
+              <p ng-show="pageForm.language.$dirty && pageForm.language.$error.required" class="help-block">This field
+                is required.</p>
             </div>
           </div>
         </div>
@@ -188,14 +203,20 @@
             ng-model="activePage.body"
             required></textarea>
         </div>
-        <p ng-show="pageForm.body.$dirty && pageForm.body.$error.required" class="help-block">This field is required.</p>
-        <p class="help-block">Don't know what's markdown or how to use it? <a href="https://daringfireball.net/projects/markdown/basics" target="_blank">Click here!</a></p>
+        <p ng-show="pageForm.body.$dirty && pageForm.body.$error.required" class="help-block">This field is
+          required.</p>
+
+        <p class="help-block">Don't know what's markdown or how to use it? <a
+          href="https://daringfireball.net/projects/markdown/basics" target="_blank">Click here!</a></p>
       </div>
 
     </div>
     <div class="modal-footer clearfix">
-      <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-      <button type="submit" class="btn btn-primary pull-left" ng-disabled="pageForm.$invalid"><i class="fa fa-check"></i> Save</button>
+      <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel
+      </button>
+      <button type="submit" class="btn btn-primary pull-left" ng-disabled="pageForm.$invalid"><i
+        class="fa fa-check"></i> Save
+      </button>
     </div>
   </form>
 

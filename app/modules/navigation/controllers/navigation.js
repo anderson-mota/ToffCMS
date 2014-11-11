@@ -5,7 +5,7 @@ app.controller('NavigationCtrl', function ($scope, Navigation, Page) {
 
     $scope.navigation = [];
     $scope.pages = [];
-    $scope.activeLanguage = 'en';
+    $scope.activeLanguage = 'pt';
     $scope.activeInstance = {};
     $scope.formErrors = [];
     $scope.dragHappened = false;

@@ -26,7 +26,7 @@
                           ng-class="activeLanguage == key ? 'active' : ''"
                           ng-repeat="(key, name) in LANGUAGES">
                           <a ng-click="$parent.activeLanguage = key">
-                            <i class="flag-icon" ng-class="key === 'en' ? 'us' : key"></i>
+                            <i class="flag-icon" ng-class="FLAGS[key] || key"></i>
                             {{ name }}
                           </a>
                         </li>
@@ -233,7 +233,7 @@
   <td class="subject" colspan="2">{{ instance.title }}</td>
 
   <td class="small-col flag">
-    <i class="flag-icon" ng-class="instance.language === 'en' ? 'us' : instance.language"></i>
+    <i class="flag-icon" ng-class="FLAGS[instance.language] || instance.language"></i>
   </td>
 
   <td class="small-col">
